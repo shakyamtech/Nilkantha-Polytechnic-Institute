@@ -1,0 +1,2285 @@
+/**
+ * Nilkantha Polytechnic Institute - Admin Dashboard Engine
+ * Modular View Switcher & Bilingual (Nepali / English) Engine
+ */
+
+let currentAdminLang = localStorage.getItem('npi_admin_lang') || 'ne';
+
+const adminI18n = {
+  ne: {
+    brand_sub: "निलकण्ठ-४, खानीगाउँ, धादिङ",
+    nav_overview: "ड्यासबोर्ड (Overview)",
+    nav_admissions: "अनलाइन भर्ना सूची",
+    nav_notices: "सूचना व्यवस्थापन",
+    nav_ticker: "ताजा सूचना टिकर",
+    nav_hero: "हिरो ब्यानर / स्लाइडर",
+    nav_staff: "शिक्षक तथा कर्मचारी",
+    nav_charter: "नागरिक बडापत्र",
+    nav_main_site: "मुख्य वेबसाइट हेर्नुहोस्",
+    btn_logout: "लगआउट (Logout)",
+    btn_add_notice: "नयाँ सूचना थप्नुहोस्",
+    btn_export_excel: "Excel डाउनलोड",
+    btn_add_ticker: "टिकर अलर्ट थप्नुहोस्",
+    btn_add_hero: "नयाँ ब्यानर थप्नुहोस्",
+    btn_add_staff: "नयाँ कर्मचारी थप्नुहोस्",
+    btn_add_charter: "नयाँ सेवा थप्नुहोस्",
+    btn_add_download: "नयाँ फाइल थप्नुहोस्",
+    nav_downloads: "डाउनलोड हब",
+    nav_inquiries: "सम्पर्क सन्देशहरू (Inbox)",
+    hero_cms_title: "हिरो ब्यानर तथा स्लाइडर व्यवस्थापन (Hero Slider CMS)",
+    hero_cms_sub: "होमपेजको मुख्य ब्यानर, फोटो, शीर्षक, विवरण तथा बटनहरू परिवर्तन र सम्पादन गर्नुहोस्",
+    downloads_cms_title: "डाउनलोड हब व्यवस्थापन (Downloads & Resources CMS)",
+    downloads_cms_sub: "पाठ्यक्रम, मोडल प्रश्नपत्र, शैक्षिक क्यालेन्डर तथा स्रोत सामग्री अपलोड र सम्पादन गर्नुहोस्",
+    inquiries_title: "सम्पर्क तथा सोधपुछ सन्देशहरू (Inquiries Inbox)",
+    inquiries_sub: "वेबसाइटबाट सर्वसाधारण र विद्यार्थीहरूले पठाएका सन्देश तथा जिज्ञासाहरूको विवरण",
+    th_doc_title: "फाइल शीर्षक (Document Title)",
+    th_doc_cat: "विधा (Category)",
+    th_doc_date: "मिति (Date)",
+    th_doc_size: "साइज (Size)",
+    th_doc_file: "फाइल नाम (Attachment)",
+    charter_title: "नागरिक बडापत्र व्यवस्थापन (Citizen Charter CMS)",
+    charter_sub: "शिक्षालयबाट प्रवाह गरिने प्रमुख प्रशासनिक तथा शैक्षिक सेवाहरूको तालिका",
+    th_service: "सेवाको विवरण (Service)",
+    th_docs: "आवश्यक कागजात (Documents)",
+    th_branch: "शाखा / अधिकारी",
+    th_time: "समय",
+    th_fee: "शुल्क",
+    
+    // KPI Cards
+    kpi_total_apps: "कुल भर्ना आवेदन",
+    kpi_ha_apps: "PCL HA आवेदन",
+    kpi_pharm_apps: "Pharmacy आवेदन",
+    kpi_notices: "सक्रिय सूचनाहरू",
+
+    // Overview Section
+    recent_admissions_title: "पछिल्ला भर्ना आवेदनहरू",
+    recent_notices_title: "हालैका सूचनाहरू",
+    view_all: "सबै हेर्नुहोस् →",
+
+    // Admissions Table
+    adm_title: "अनलाइन भर्ना आवेदन व्यवस्थापन",
+    adm_sub: "आवेदक विद्यार्थीहरूको विवरण, रुजु र Excel डाउनलोड",
+    search_placeholder: "नाम, सिम्बोल वा ID खोज्नुहोस्...",
+    all_courses: "सबै कार्यक्रम (All Courses)",
+    th_app_id: "Applicant ID",
+    th_name: "विद्यार्थीको नाम (Name)",
+    th_course: "कार्यक्रम (Course)",
+    th_quota: "कोटा (Quota)",
+    th_gpa: "SEE GPA",
+    th_contact: "सम्पर्क / ठेगाना",
+    th_status: "स्थिति",
+    th_action: "कार्य (Action)",
+    btn_view: "हेर्नुहोस्",
+
+    // Notices Table
+    notices_title: "सूचना तथा नतिजा व्यवस्थापन (Notices CMS)",
+    notices_sub: "वेबसाइटको आधिकारिक सूचना पाटी सम्पादन",
+    th_notice_no: "सूचना नं",
+    th_notice_title: "सूचनाको शीर्षक",
+    th_category: "श्रेणी",
+    th_date: "मिति (BS)",
+    th_file: "फाइल",
+    btn_delete: "हटाउनुहोस्",
+
+    // Ticker Table
+    ticker_title: "ताजा सूचना टिकर व्यवस्थापन",
+    ticker_sub: "होमपेजको माथि घुम्ने १-२ लाइनका अलर्टहरू",
+    th_sn: "क्र.सं.",
+    th_ticker_msg: "टिकर सन्देश",
+    th_tag: "ट्याग",
+
+    // Staff Table
+    staff_title: "शिक्षक तथा कर्मचारी विवरण (Faculty & Staff)",
+    staff_sub: "शिक्षालयका प्राध्यापक, विभागीय प्रमुख तथा कर्मचारीहरूको सूची",
+    th_staff_name: "नाम",
+    th_role: "पद (Designation)",
+    th_dept: "विभाग (Department)",
+    th_qual: "योग्यता",
+
+    // Login View
+    login_title: "निलकण्ठ बहुप्राविधिक शिक्षालय",
+    login_sub: "प्रशासन तथा भर्ना व्यवस्थापन पोर्टल (Admin Login)",
+    login_placeholder: "सुरक्षा पिन वा पासवर्ड प्रविष्ट गर्नुहोस्",
+    btn_login: "लगइन गर्नुहोस् (Login)",
+    default_pin_hint: "डिफल्ट सुरक्षा पिन (Default PIN):"
+  },
+
+  en: {
+    brand_sub: "Nilkantha-3, Dhading",
+    nav_overview: "Dashboard Overview",
+    nav_admissions: "Online Admissions",
+    nav_notices: "Notices CMS",
+    nav_ticker: "Breaking Ticker",
+    nav_hero: "Hero Slider CMS",
+    nav_staff: "Faculty & Staff",
+    nav_charter: "Citizen Charter",
+    nav_downloads: "Downloads Hub",
+    nav_inquiries: "Inquiries Inbox",
+    nav_main_site: "View Main Website",
+    btn_logout: "Logout",
+    btn_add_notice: "Add New Notice",
+    btn_export_excel: "Export to Excel",
+    btn_add_ticker: "Add Ticker Alert",
+    btn_add_hero: "Add New Slide",
+    btn_add_staff: "Add New Staff",
+    btn_add_charter: "Add New Service",
+    btn_add_download: "Add New Resource",
+    hero_cms_title: "Hero Slider & Banners CMS",
+    hero_cms_sub: "Customize homepage top carousel, photos, headings and call-to-actions",
+    downloads_cms_title: "Downloads & Resources CMS",
+    downloads_cms_sub: "Manage and upload syllabus, model question papers, and academic resources",
+    inquiries_title: "Contact & Inquiries Inbox",
+    inquiries_sub: "Manage public inquiries, consultation messages, and feedback from website",
+    th_doc_title: "Document Title",
+    th_doc_cat: "Category",
+    th_doc_date: "Date",
+    th_doc_size: "Size",
+    th_doc_file: "Attachment",
+    charter_title: "Citizen Charter CMS",
+    charter_sub: "Official Institutional Service Charter and Citizen Guarantees",
+    th_service: "Service Description",
+    th_docs: "Required Documents",
+    th_branch: "Branch / Officer",
+    th_time: "Timeframe",
+    th_fee: "Fee",
+
+    // KPI Cards
+    kpi_total_apps: "Total Applications",
+    kpi_ha_apps: "PCL HA Applications",
+    kpi_pharm_apps: "Pharmacy Applications",
+    kpi_notices: "Active Notices",
+
+    // Overview Section
+    recent_admissions_title: "Recent Applications",
+    recent_notices_title: "Recent Circulars",
+    view_all: "View All →",
+
+    // Admissions Table
+    adm_title: "Online Admissions Management",
+    adm_sub: "Manage applicant credentials, verify status and export to Excel/CSV",
+    search_placeholder: "Search by Name, Symbol, or ID...",
+    all_courses: "All Courses",
+    th_app_id: "Applicant ID",
+    th_name: "Candidate Name",
+    th_course: "Course / Program",
+    th_quota: "Category Quota",
+    th_gpa: "SEE GPA",
+    th_contact: "Contact / Address",
+    th_status: "Status",
+    th_action: "Action",
+    btn_view: "View Profile",
+
+    // Notices Table
+    notices_title: "Notices & Circulars CMS",
+    notices_sub: "Publish, update or remove public CTEVT notices",
+    th_notice_no: "Notice ID",
+    th_notice_title: "Notice Heading",
+    th_category: "Category",
+    th_date: "Published Date",
+    th_file: "Attachment",
+    btn_delete: "Delete",
+
+    // Ticker Table
+    ticker_title: "Breaking News Ticker Manager",
+    ticker_sub: "Real-time scrolling marquee notifications on header",
+    th_sn: "S.N.",
+    th_ticker_msg: "Ticker Message",
+    th_tag: "Badge Tag",
+
+    // Staff Table
+    staff_title: "Faculty & Staff Directory",
+    staff_sub: "Manage academic instructors and administrative personnel",
+    th_staff_name: "Full Name",
+    th_role: "Designation",
+    th_dept: "Department",
+    th_qual: "Qualifications",
+
+    // Login View
+    login_title: "Nilkantha Polytechnic Institute",
+    login_sub: "Administration & Admissions Portal (Admin Login)",
+    login_placeholder: "Enter security PIN or passcode",
+    btn_login: "Login to Dashboard",
+    default_pin_hint: "Default Security PIN:"
+  }
+};
+
+// Data Stores
+const defaultAdmissions = [
+  {
+    app_id: "NPI-2083-HA-8842",
+    program: "Diploma in Civil Engineering (Hydropower)",
+    quota: "Classified Scholarship",
+    name_ne: "रमेश बहादुर कुँवर",
+    name_en: "RAMESH BAHADUR KUNWAR",
+    phone: "9848765432",
+    district: "Nilkantha-3, Dhading",
+    school: "Shree Shodasha Devi Ma.Vi.",
+    symbol_no: "08004128K",
+    gpa: "3.15",
+    grade_sci: "B+",
+    status: "Verified",
+    date: "२०८३ आश्विन १४"
+  },
+  {
+    app_id: "NPI-2083-PHARM-7219",
+    program: "Diploma in Civil Engineering (Hydropower)",
+    quota: "Open Merit",
+    name_ne: "सिता कुमारी शाही",
+    name_en: "SITA KUMARI SHAHI",
+    phone: "9868123456",
+    district: "Sanfebagar-2, Dhading",
+    school: "Shree Tribhuvan Ma.Vi.",
+    symbol_no: "08009921B",
+    gpa: "3.45",
+    grade_sci: "A",
+    status: "Verified",
+    date: "२०८३ आश्विन १३"
+  },
+  {
+    app_id: "NPI-2083-HA-4310",
+    program: "Diploma in Civil Engineering (Hydropower)",
+    quota: "Female Quota",
+    name_ne: "पुजा अधिकारी",
+    name_en: "PUJA ADHIKARI",
+    phone: "9812345678",
+    district: "Kamalbazar, Dhading",
+    school: "Kamalbazar Secondary School",
+    symbol_no: "08001244M",
+    gpa: "2.90",
+    grade_sci: "C+",
+    status: "Pending",
+    date: "२०८३ आश्विन १२"
+  }
+];
+
+function loadStoredAdmissions() {
+  const raw = localStorage.getItem('npi_admissions');
+  if (!raw) {
+    try {
+      localStorage.setItem('npi_admissions', JSON.stringify(defaultAdmissions));
+    } catch(e) {}
+    return defaultAdmissions;
+  }
+  try {
+    const stored = JSON.parse(raw);
+    if (!Array.isArray(stored) || stored.length === 0) return defaultAdmissions;
+    return stored;
+  } catch (e) {
+    return defaultAdmissions;
+  }
+}
+
+let mockAdmissions = loadStoredAdmissions();
+
+const defaultNotices = [
+  {
+    id: "N-2083-104",
+    title_ne: "CTEVT डिप्लोमा इन फार्मेसी तथा PCL सामान्य चिकित्सा (HA) नयाँ भर्ना आवेदन फाराम खुला!",
+    title_en: "Admission Application Form Open for CTEVT Diploma in Civil Engineering (Hydropower) & Diploma in Civil Engineering (Hydropower)",
+    category: "Admission",
+    date_bs: "२०८३ आश्विन १२",
+    file: "CTEVT_Admission_Form_2083_NPI.pdf",
+    content_ne: "प्राविधिक शिक्षा तथा व्यावसायिक तालिम परिषद् (CTEVT) अन्तर्गतको आङ्गिक शिक्षालय निलकण्ठ बहुप्राविधिक शिक्षालय, निलकण्ठ-३ धादिङमा शैक्षिक सत्र २०८३/०८४ का लागि नयाँ भर्ना आवेदन फाराम खुला गरिएको छ।"
+  },
+  {
+    id: "N-2083-103",
+    title_ne: "वर्गीकृत (निःशुल्क) छात्रवृत्ति प्रवेश परीक्षाको नतिजा तथा भर्ना सम्बन्धी सूचना",
+    title_en: "Result of Classified Free Scholarship Entrance Examination Published",
+    category: "Scholarship",
+    date_bs: "२०८३ आश्विन ०८",
+    file: "Classified_Scholarship_Result_2083.pdf",
+    content_ne: "CTEVT परीक्षा नियन्त्रण कार्यालय सानोठिमी भक्तपुरबाट सञ्चालित वर्गीकृत निःशुल्क छात्रवृत्तिको प्रवेश परीक्षामा सफल भई सिफारिस भएका मुख्य उम्मेदवारहरूले तोकिएको समयभित्र भर्ना हुन अनुरोध छ।"
+  },
+  {
+    id: "N-2083-102",
+    title_ne: "डिप्लोमा तथा प्रमाणपत्र तह प्रथम वर्षको नियमित तथा पूरक परीक्षा तालिका (Exam Routine)",
+    title_en: "First Year Regular & Back Examination Schedule Routine Published",
+    category: "Exam",
+    date_bs: "२०८३ आश्विन ०२",
+    file: "CTEVT_Exam_Routine_First_Year_2083.pdf",
+    content_ne: "CTEVT परीक्षा नियन्त्रण कार्यालयको वार्षिक क्यालेन्डर अनुसार डिप्लोमा तथा प्रमाणपत्र तह प्रथम वर्षको परीक्षा तालिका सार्वजनिक गरिएको छ।"
+  },
+  {
+    id: "N-2083-101",
+    title_ne: "धादिङ जिल्ला अस्पताल तथा प्राथमिक स्वास्थ्य केन्द्रहरूमा PCL HA विद्यार्थीहरूको क्लिनिकल पोष्टिङ सम्बन्धी",
+    title_en: "Clinical & Community Hospital Posting Directives for PCL Health Assistant Students",
+    category: "Circular",
+    date_bs: "२०८३ भाद्र २५",
+    file: "Clinical_Posting_Dhading_Hospital_2083.pdf",
+    content_ne: "PCL in General Medicine दोस्रो र तेस्रो वर्षका विद्यार्थीहरूका लागि जिल्ला अस्पताल धादिङ, निलकण्ठ तथा मातहतका प्राथमिक स्वास्थ्य केन्द्रहरूमा क्लिनिकल इन्टर्नसिप तथा प्रयोगात्मक अभ्यास सञ्चालन हुने तालिका सम्बन्धी जानकारी।"
+  },
+  {
+    id: "N-2083-100",
+    title_ne: "फार्मेसी तथा विज्ञान प्रयोगशाला उपकरण खरिद सम्बन्धी बोलपत्र (Tender/Quotation) आह्वान",
+    title_en: "Sealed Quotation Invitation for Supply & Delivery of Pharmacy Lab Equipments & Chemicals",
+    category: "Tender",
+    date_bs: "२०८३ भाद्र १५",
+    file: "Tender_Lab_Equipments_NPI_2083.pdf",
+    content_ne: "यस शिक्षालयको फार्मेसी तथा एनाटोमी प्रयोगशालाका लागि आवश्यक आधुनिक उपकरण, रासायनिक पदार्थ (Chemicals) र ग्लासवयर आपूर्ति गर्न इजाजतप्राप्त फर्म/कम्पनीहरूबाट सिलबन्दी दरभाउपत्र आह्वान गरिएको छ।"
+  }
+];
+
+function loadStoredAdminNotices() {
+  const raw = localStorage.getItem('npi_notices');
+  if (!raw) return defaultNotices;
+  try {
+    const stored = JSON.parse(raw);
+    if (!Array.isArray(stored) || stored.length === 0) return defaultNotices;
+    // Ensure all default notices are available
+    const storedIds = new Set(stored.map(s => s.id));
+    const merged = [...stored];
+    defaultNotices.forEach(dn => {
+      if (!storedIds.has(dn.id)) {
+        merged.push(dn);
+      }
+    });
+    return merged;
+  } catch (e) {
+    return defaultNotices;
+  }
+}
+
+let mockNotices = loadStoredAdminNotices();
+
+const defaultTickers = [
+  { id: 1, text: "CTEVT Diploma in Civil Engineering (Hydropower) & Diploma in Civil Engineering (Hydropower) २०८३/०८४ भर्ना फाराम खुला सम्बन्धी अत्यन्त जरुरी सूचना!", tag: "भर्ना खुला" },
+  { id: 2, text: "वर्गीकृत (निःशुल्क) छात्रवृत्ति प्रवेश परीक्षाको नतिजा तथा भर्ना सम्बन्धी सूचना प्रकाशित।", tag: "छात्रवृत्ति" },
+  { id: 3, text: "डिप्लोमा तथा प्रमाणपत्र तह प्रथम वर्षको नियमित तथा पूरक परीक्षा तालिका सार्वजनिक।", tag: "परीक्षा" }
+];
+
+let mockTickers = JSON.parse(localStorage.getItem('npi_tickers') || 'null') || defaultTickers;
+
+const defaultHeroSlides = [
+  {
+    id: 1,
+    tag: "CTEVT Constituent Institute • Estd: 2079",
+    tag_color: "#C8102E",
+    title_ne: "सुदूरपश्चिममा दक्ष प्राविधिक तथा स्वास्थ्य शिक्षाको ज्योति",
+    title_en: "Leading Technical & Health Sciences Education in Sudurpashchim",
+    desc_ne: "निलकण्ठ बहुप्राविधिक शिक्षालय, धादिङ - गुणस्तरीय प्रयोगशाला, दक्ष प्राध्यापक र अस्पतालको प्रत्यक्ष प्रयोगात्मक अभ्यास सहित Diploma in Civil Engineering (Hydropower) र Diploma in Civil Engineering (Hydropower) अध्यापन गराइने एक मात्र आधिकारिक आङ्गिक शिक्षालय।",
+    desc_en: "Nilkantha Polytechnic Institute, Dhading - Premier constituent institution providing quality laboratory, expert faculty and hospital clinical training in Pharmacy and Health Assistant.",
+    image: "assets/images/hero-campus.jpg",
+    btn1_text_ne: "अनलाइन भर्ना आवेदन फाराम",
+    btn1_text_en: "Online Admission Form",
+    btn1_link: "#online-admission",
+    btn2_text_ne: "कार्यक्रमहरू हेर्नुहोस्",
+    btn2_text_en: "Explore Programs",
+    btn2_link: "#programs"
+  },
+  {
+    id: 2,
+    tag: "Diploma in Civil Engineering (Hydropower)",
+    tag_color: "#0284C7",
+    title_ne: "३ वर्षे स्वास्थ्य सहायक (HA) कार्यक्रम - ४० सिट",
+    title_en: "3-Year PCL in General Medicine (Health Assistant - HA)",
+    desc_ne: "प्रत्यक्ष एनाटोमी प्रयोगशाला, प्राथमिक स्वास्थ्य शिविर र जिल्ला अस्पताल धादिङसँगको साझेदारीमा क्लिनिकल इन्टर्नसिपद्वारा अब्बल स्वास्थ्यकर्मी बन्ने स्वर्णिम अवसर।",
+    desc_en: "Golden opportunity to become certified health professionals with dedicated anatomy labs, public health camps, and district hospital clinical posting.",
+    image: "assets/images/ha-lab.jpg",
+    btn1_text_ne: "HA मा भर्ना हुनुहोस्",
+    btn1_text_en: "Apply for HA",
+    btn1_link: "#ha-program",
+    btn2_text_ne: "योग्यता जाँच्नुहोस्",
+    btn2_text_en: "Check GPA Eligibility",
+    btn2_link: "#calculator-section"
+  },
+  {
+    id: 3,
+    tag: "Diploma in Civil Engineering (Hydropower)",
+    tag_color: "#059669",
+    title_ne: "३ वर्षे डिप्लोमा इन फार्मेसी - ४० सिट",
+    title_en: "3-Year Diploma in Civil Engineering (Hydropower) - 40 Seats",
+    desc_ne: "अत्याधुनिक औषधि विज्ञान ल्याब, फर्मास्युटिकल केमिस्ट्री तथा अस्पताल फार्मेसी अभ्यास मार्फत नेपाल फार्मेसी काउन्सिल (NPC) मान्यता प्राप्त जनशक्ति उत्पादन।",
+    desc_en: "State-of-the-art pharmaceutical science laboratories and hospital pharmacy practice producing NPC registered pharmacists.",
+    image: "assets/images/pharmacy-lab.jpg",
+    btn1_text_ne: "फार्मेसीमा भर्ना हुनुहोस्",
+    btn1_text_en: "Apply for Pharmacy",
+    btn1_link: "#pharmacy-program",
+    btn2_text_ne: "अनलाइन भर्ना",
+    btn2_text_en: "Apply Online",
+    btn2_link: "#online-admission"
+  },
+  {
+    id: 4,
+    tag: "Community Service",
+    tag_color: "#D97706",
+    title_ne: "धादिङका दूरदराजका बस्तीहरूमा स्वास्थ्य सेवा र अभ्यास",
+    title_en: "Community Healthcare & Practical Medical Camps in Rural Dhading",
+    desc_ne: "हाम्रा विद्यार्थीहरू केवल कक्षाकोठामा मात्र सीमित नभई गाउँबस्तीमा पुगेर निःशुल्क स्वास्थ्य परामर्श तथा जनस्वास्थ्य सचेतना अभियानमा सक्रिय छन्।",
+    desc_en: "Our students actively participate in free medical outreach and health awareness camps throughout rural communities in Dhading.",
+    image: "assets/images/community-camp.jpg",
+    btn1_text_ne: "ग्यालरी",
+    btn1_text_en: "Campus Gallery",
+    btn1_link: "#gallery",
+    btn2_text_ne: "सम्पर्क",
+    btn2_text_en: "Contact Us",
+    btn2_link: "#contact"
+  }
+];
+
+function loadStoredHeroSlides() {
+  const raw = localStorage.getItem('npi_hero_slides');
+  if (!raw) return defaultHeroSlides;
+  try {
+    const stored = JSON.parse(raw);
+    if (!Array.isArray(stored) || stored.length === 0) return defaultHeroSlides;
+    return stored;
+  } catch(e) {
+    return defaultHeroSlides;
+  }
+}
+
+let mockHeroSlides = loadStoredHeroSlides();
+
+const defaultStaff = [
+  { id: 1, name: "Naresh Baral", role: "Campus Chief / शिक्षालय प्रमुख", dept: "Leadership", qual: "Campus Administration & Technical Education", image: "assets/images/principal.jpg" },
+  { id: 2, name: "Er. Roshan Subedi", role: "Head of Department (Civil Eng.)", dept: "Civil Engineering", qual: "M.Sc. Structural Engineering • CTEVT" },
+  { id: 3, name: "Er. Prakash Sharma", role: "Head of Department (Automobile Eng.)", dept: "Automobile Engineering", qual: "B.E. Automobile / Mechanical • Workshop Training" },
+  { id: 4, name: "Er. Anita Shrestha", role: "Senior Survey & Geomatics Instructor", dept: "Survey & Labs", qual: "B.E. Geomatics / Civil • Field Training" },
+  { id: 5, name: "Ramesh Thapa", role: "Admin & Account Officer", dept: "Administration", qual: "MBS • Administration & Exam" }
+];
+
+let mockStaff = JSON.parse(localStorage.getItem('npi_staff') || 'null') || defaultStaff;
+
+const defaultCharter = [
+  { id: 1, service: "Admission Application Registration", docs: "SEE Marksheet, Character Certificate, Citizenship/Birth Cert", branch: "Admission & Exam Section", time: "Immediate (Same Day)", fee: "As per CTEVT rules" },
+  { id: 2, service: "Character Certificate Issuance", docs: "Final Year Marksheet, Clearance Form", branch: "Admin Section", time: "1 Working Day", fee: "NPR 200/-" },
+  { id: 3, service: "Recommendation Letter & Document Verification", docs: "Application & Original Credentials", branch: "Campus Chief / Admin", time: "Same Day", fee: "Free" },
+  { id: 4, service: "Scholarship Recommendations", docs: "CTEVT Exam Controller Selection Letter", branch: "Student Welfare Section", time: "Immediate", fee: "Free" }
+];
+
+let mockCharter = JSON.parse(localStorage.getItem('npi_charter') || 'null') || defaultCharter;
+
+const defaultDownloads = [
+  { id: 1, title: "CTEVT Diploma in Civil Engineering (Hydropower) Curriculum Syllabus", category: "Syllabus", date: "2083/05/10", size: "2.4 MB", type: "pdf", file: "CTEVT_HA_Curriculum.pdf" },
+  { id: 2, title: "CTEVT Diploma in Civil Engineering (Hydropower) Curriculum Syllabus", category: "Syllabus", date: "2083/05/10", size: "2.1 MB", type: "pdf", file: "CTEVT_Pharmacy_Curriculum.pdf" },
+  { id: 3, title: "CTEVT Diploma Entrance Model Question Papers 2083", category: "Model Questions", date: "2083/06/01", size: "1.5 MB", type: "pdf", file: "CTEVT_Model_Questions_2083.pdf" },
+  { id: 4, title: "Nilkantha Polytechnic Institute Academic Calendar 2083/2084", category: "Calendar", date: "2083/01/15", size: "980 KB", type: "pdf", file: "NPI_Academic_Calendar_2083_84.pdf" }
+];
+
+let mockDownloads = JSON.parse(localStorage.getItem('npi_downloads') || 'null') || defaultDownloads;
+
+const defaultContactInfo = {
+  location: "Nilkantha Municipality Ward No. 3, Dhading, Sudurpashchim Province, Nepal",
+  phone: "010-590116 / 9849050398 / 9848765432",
+  email: "info@npsdhading.edu.np / nilakanthapolitechnic79@gmail.com",
+  hours: "Sun - Thu: 10:00 AM - 5:00 PM | Friday: 10:00 AM - 3:00 PM (Saturday Closed)",
+  facebook: "https://www.facebook.com/npsdhading/",
+  youtube: "https://www.youtube.com/"
+};
+
+let mockContactInfo = JSON.parse(localStorage.getItem('npi_contact_info') || 'null') || defaultContactInfo;
+
+const defaultInquiries = [
+  {
+    id: "INQ-2083-001",
+    name: "गणेश रोकाया",
+    phone: "9848123456",
+    email: "ganesh.roka@gmail.com",
+    subject: "Admissions & Scholarships",
+    message: "नमस्ते, म कक्षा १० पास भएको विद्यार्थी हुँ। HA मा classified scholarship को लागि प्रवेश परीक्षा फाराम भर्ने अन्तिम मिति कहिले सम्म छ?",
+    date: "२०८३/०६/१४",
+    status: "New"
+  },
+  {
+    id: "INQ-2083-002",
+    name: "मनिषा साउद",
+    phone: "9868789012",
+    email: "manisha.saud@gmail.com",
+    subject: "Fee Structure & Syllabus",
+    message: "फार्मेसीको ३ वर्षे डिप्लोमा कोर्षको कुल शुल्क कति लाग्छ र किस्ताबन्दी सुविधा छ कि छैन जानकारी पाउँ।",
+    date: "२०८३/०६/१३",
+    status: "Replied"
+  }
+];
+
+let mockInquiries = JSON.parse(localStorage.getItem('npi_inquiries') || 'null') || defaultInquiries;
+
+let activeView = 'overview';
+
+document.addEventListener('DOMContentLoaded', () => {
+  checkAuth();
+  initLogin();
+  applyAdminLanguage(currentAdminLang);
+});
+
+function toggleAdminLanguage() {
+  currentAdminLang = (currentAdminLang === 'ne') ? 'en' : 'ne';
+  localStorage.setItem('npi_admin_lang', currentAdminLang);
+  applyAdminLanguage(currentAdminLang);
+  switchAdminView(activeView);
+}
+
+function applyAdminLanguage(lang) {
+  const dict = adminI18n[lang] || adminI18n.ne;
+
+  // Toggle button text
+  const toggleBtn = document.getElementById('adminLangToggleBtn');
+  if (toggleBtn) {
+    toggleBtn.innerHTML = (lang === 'ne')
+      ? `<i class="fa-solid fa-globe"></i> English`
+      : `<i class="fa-solid fa-globe"></i> नेपाली`;
+  }
+
+  // Update all [data-admin-i18n] elements
+  document.querySelectorAll('[data-admin-i18n]').forEach(el => {
+    const key = el.getAttribute('data-admin-i18n');
+    if (dict[key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.setAttribute('placeholder', dict[key]);
+      } else {
+        el.textContent = dict[key];
+      }
+    }
+  });
+}
+
+function checkAuth() {
+  const isAuth = localStorage.getItem('npi_admin_auth');
+  const loginView = document.getElementById('adminLoginView');
+  const dashboardView = document.getElementById('adminDashboardView');
+
+  if (isAuth === 'true') {
+    if (loginView) loginView.style.display = 'none';
+    if (dashboardView) dashboardView.style.display = 'grid';
+    switchAdminView('overview');
+    renderDashboard();
+  } else {
+    if (loginView) loginView.style.display = 'flex';
+    if (dashboardView) dashboardView.style.display = 'none';
+  }
+}
+
+function initLogin() {
+  const form = document.getElementById('adminLoginForm');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pin = document.getElementById('adminPinInput')?.value.trim();
+
+    if (pin === '2083' || pin === '2081' || pin === 'admin' || pin === 'admin@mpi') {
+      localStorage.setItem('npi_admin_auth', 'true');
+      checkAuth();
+    } else {
+      alert(currentAdminLang === 'en' ? 'Invalid PIN or Password! (Default PIN: 2083)' : 'गलत पासवर्ड वा पिन! (Default PIN: 2083)');
+    }
+  });
+}
+
+window.adminLogout = function() {
+  localStorage.removeItem('npi_admin_auth');
+  checkAuth();
+};
+
+// Modular View Switcher
+window.switchAdminView = function(viewKey) {
+  activeView = viewKey;
+
+  // Hide all view panels
+  document.querySelectorAll('.admin-view-panel').forEach(panel => {
+    panel.style.display = 'none';
+    panel.classList.remove('active');
+  });
+
+  // Show selected panel
+  const targetPanel = document.getElementById(`view-${viewKey}`);
+  if (targetPanel) {
+    targetPanel.style.display = 'block';
+    targetPanel.classList.add('active');
+  }
+
+  // Update sidebar active class
+  document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('data-view-target') === viewKey) {
+      item.classList.add('active');
+    }
+  });
+
+  const isEn = (currentAdminLang === 'en');
+  const titles = {
+    overview: { 
+      title: isEn ? "Dashboard Overview" : "ड्यासबोर्ड (Overview)", 
+      sub: isEn ? "Nilkantha Polytechnic Institute • Session 2083/084" : "निलकण्ठ बहुप्राविधिक शिक्षालय • शैक्षिक सत्र २०८३/०८४" 
+    },
+    admissions: { 
+      title: isEn ? "Online Admissions Management" : "अनलाइन भर्ना आवेदन व्यवस्थापन", 
+      sub: isEn ? "Applicant records, status verification and Excel exports" : "आवेदक विद्यार्थीहरूको विवरण, रुजु र Excel डाउनलोड" 
+    },
+    notices: { 
+      title: isEn ? "Notices & Circulars CMS" : "सूचना तथा नतिजा व्यवस्थापन (Notices CMS)", 
+      sub: isEn ? "Publish, edit and manage public institutional notices" : "वेबसाइटको आधिकारिक सूचना पाटी सम्पादन" 
+    },
+    ticker: { 
+      title: isEn ? "Breaking News Ticker Manager" : "ताजा सूचना टिकर व्यवस्थापन", 
+      sub: isEn ? "Live top marquee notifications" : "होमपेजको माथि घुम्ने ब्रेकिङ टिकर सन्देशहरू" 
+    },
+    hero: {
+      title: isEn ? "Hero Slider & Banners CMS" : "हिरो ब्यानर तथा स्लाइडर व्यवस्थापन (Hero CMS)",
+      sub: isEn ? "Manage homepage top visual banners, photos, titles, and call-to-actions" : "होमपेजको मुख्य ब्यानर, फोटो, शीर्षक, विवरण तथा बटनहरू परिवर्तन गर्नुहोस्"
+    },
+    staff: { 
+      title: isEn ? "Faculty & Staff Directory" : "शिक्षक तथा कर्मचारी विवरण व्यवस्थापन", 
+      sub: isEn ? "Academic instructors and administrative personnel" : "शिक्षालयका प्राध्यापक तथा प्रशासन टिम" 
+    },
+    charter: {
+      title: isEn ? "Citizen Charter CMS" : "नागरिक बडापत्र व्यवस्थापन (Citizen Charter CMS)",
+      sub: isEn ? "Official Institutional Service Charter and citizen guarantees" : "शिक्षालयबाट प्रवाह गरिने प्रमुख प्रशासनिक तथा शैक्षिक सेवाहरूको तालिका"
+    },
+    downloads: {
+      title: isEn ? "Downloads & Resources CMS" : "डाउनलोड हब व्यवस्थापन (Downloads CMS)",
+      sub: isEn ? "Curriculum syllabus, model questions, and academic resources" : "पाठ्यक्रम, मोडल प्रश्नपत्र तथा शैक्षिक सामग्री अपलोड र व्यवस्थापन"
+    },
+    inquiries: {
+      title: isEn ? "Contact & Inquiries Inbox" : "सम्पर्क तथा सोधपुछ सन्देशहरू (Inquiries Inbox)",
+      sub: isEn ? "Public feedback and admission inquiries from website" : "विद्यार्थी तथा सर्वसाधारणका जिज्ञासा र सन्देशहरू"
+    }
+  };
+
+  const current = titles[viewKey] || titles.overview;
+  const titleEl = document.getElementById('currentViewTitle');
+  const subEl = document.getElementById('currentViewSubtitle');
+  if (titleEl) titleEl.textContent = current.title;
+  if (subEl) subEl.textContent = current.sub;
+
+  // Refresh relevant view table
+  if (viewKey === 'overview') renderOverviewRecent();
+  if (viewKey === 'admissions') renderAdmissionsTable();
+  if (viewKey === 'notices') {
+    renderPopupSettingsForm();
+    renderNoticesTable();
+  }
+  if (viewKey === 'ticker') renderTickerTable();
+  if (viewKey === 'hero') renderHeroTable();
+  if (viewKey === 'staff') renderStaffTable();
+  if (viewKey === 'charter') renderCharterTable();
+  if (viewKey === 'downloads') renderDownloadsTable();
+  if (viewKey === 'inquiries') renderInquiriesTable();
+};
+
+function renderDashboard() {
+  renderKPIs();
+  renderOverviewRecent();
+  renderAdmissionsTable();
+  renderPopupSettingsForm();
+  renderNoticesTable();
+  renderTickerTable();
+  renderHeroTable();
+  renderStaffTable();
+  renderCharterTable();
+  renderDownloadsTable();
+  renderInquiriesTable();
+  updateInquiryUnreadBadge();
+}
+
+function renderKPIs() {
+  const totalApps = mockAdmissions.length;
+  const haCount = mockAdmissions.filter(a => a.program.includes('HA')).length;
+  const pharmCount = mockAdmissions.filter(a => a.program.includes('Pharmacy')).length;
+  const noticeCount = mockNotices.length;
+
+  document.getElementById('kpiTotalApps').textContent = totalApps;
+  document.getElementById('kpiHaApps').textContent = haCount;
+  document.getElementById('kpiPharmApps').textContent = pharmCount;
+  document.getElementById('kpiTotalNotices').textContent = noticeCount;
+}
+
+function renderOverviewRecent() {
+  const tbody = document.getElementById('overviewRecentAdmissions');
+  const noticeList = document.getElementById('overviewRecentNotices');
+  const isEn = (currentAdminLang === 'en');
+
+  if (tbody) {
+    tbody.innerHTML = mockAdmissions.slice(0, 3).map(item => `
+      <tr>
+        <td><strong>${item.app_id}</strong></td>
+        <td>${isEn ? item.name_en : item.name_ne}</td>
+        <td><span style="color:var(--admin-primary); font-weight:600;">${item.program}</span></td>
+        <td><strong>${item.gpa}</strong></td>
+        <td><span class="badge-status ${item.status === 'Verified' ? 'status-verified' : 'status-pending'}">${item.status}</span></td>
+      </tr>
+    `).join('');
+  }
+
+  if (noticeList) {
+    noticeList.innerHTML = mockNotices.slice(0, 3).map(n => `
+      <li style="background:#F8FAFC; padding:0.75rem 1rem; border-radius:8px; border:1px solid #E2E8F0; font-size:0.85rem;">
+        <span class="badge-status status-verified" style="font-size:0.7rem;">${n.category}</span>
+        <strong style="display:block; margin-top:4px; color:var(--admin-primary);">${isEn ? n.title_en : n.title_ne}</strong>
+        <span style="font-size:0.75rem; color:#64748B;">Date: ${n.date_bs}</span>
+      </li>
+    `).join('');
+  }
+}
+
+function renderAdmissionsTable(filterCourse = 'all', searchQuery = '') {
+  const tbody = document.getElementById('admissionsTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  let list = mockAdmissions;
+  if (filterCourse !== 'all') {
+    list = list.filter(a => a.program.toLowerCase().includes(filterCourse.toLowerCase()));
+  }
+
+  if (searchQuery.trim() !== '') {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(a => 
+      a.name_ne.toLowerCase().includes(q) || 
+      a.name_en.toLowerCase().includes(q) || 
+      a.app_id.toLowerCase().includes(q) ||
+      a.symbol_no.toLowerCase().includes(q)
+    );
+  }
+
+  tbody.innerHTML = list.map(item => `
+    <tr>
+      <td><strong>${item.app_id}</strong></td>
+      <td><strong>${isEn ? item.name_en : item.name_ne}</strong><br><small style="color:#64748B;">${isEn ? item.name_ne : item.name_en}</small></td>
+      <td><span style="font-weight:600; color:var(--admin-primary);">${item.program}</span></td>
+      <td>${item.quota}</td>
+      <td><strong>${item.gpa}</strong> (Sci: ${item.grade_sci})</td>
+      <td>${item.phone}<br><small style="color:#64748B;">${item.district}</small></td>
+      <td><span class="badge-status ${item.status === 'Verified' ? 'status-verified' : 'status-pending'}">${item.status}</span></td>
+      <td>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn-admin btn-admin-primary" style="padding:4px 8px; font-size:0.75rem;" onclick="viewApplicantDetail('${item.app_id}')">
+            <i class="fa-solid fa-eye"></i> ${isEn ? 'View Profile' : 'हेर्नुहोस्'}
+          </button>
+          <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdmission('${item.app_id}')" title="${isEn ? 'Delete' : 'हटाउनुहोस्'}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+window.filterAdmissions = function() {
+  const course = document.getElementById('admCourseFilter')?.value || 'all';
+  const query = document.getElementById('admSearchInput')?.value || '';
+  renderAdmissionsTable(course, query);
+};
+
+function renderNoticesTable() {
+  const tbody = document.getElementById('adminNoticesTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockNotices.map(n => `
+    <tr>
+      <td><strong>${n.id}</strong></td>
+      <td>${isEn ? (n.title_en || n.title_ne) : n.title_ne}</td>
+      <td><span class="badge-status status-verified">${n.category}</span></td>
+      <td>${n.date_bs}</td>
+      <td><i class="fa-solid fa-file-pdf" style="color:#EF4444;"></i> ${n.file || n.file_name || 'Document.pdf'}</td>
+      <td>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editNotice('${n.id}')">
+            <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+          </button>
+          <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteNotice('${n.id}')">
+            <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderTickerTable() {
+  const tbody = document.getElementById('adminTickerTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockTickers.map((t, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td><strong>${t.text}</strong></td>
+      <td><span class="badge-status status-verified">${t.tag}</span></td>
+      <td>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editTicker(${t.id})">
+            <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+          </button>
+          <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteTicker(${t.id})">
+            <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderHeroTable() {
+  const tbody = document.getElementById('adminHeroTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockHeroSlides.map((slide, idx) => {
+    const photo = slide.image
+      ? `<img src="${slide.image}" alt="${slide.title_ne}" style="width:72px; height:42px; object-fit:cover; border-radius:6px; border:1px solid #CBD5E1;" onerror="this.onerror=null; this.outerHTML='<div style=\\'width:72px; height:42px; background:#F1F5F9; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#94A3B8; font-size:0.75rem;\\'><i class=\\'fa-solid fa-image\\'></i></div>';" />`
+      : `<div style="width:72px; height:42px; background:#F1F5F9; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#94A3B8; font-size:0.75rem;"><i class="fa-solid fa-image"></i></div>`;
+
+    const tagColor = slide.tag_color || '#C8102E';
+    const title = isEn ? (slide.title_en || slide.title_ne) : slide.title_ne;
+    const desc = isEn ? (slide.desc_en || slide.desc_ne) : slide.desc_ne;
+    const descPreview = desc.length > 60 ? desc.substring(0, 60) + '...' : desc;
+
+    return `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${photo}</td>
+        <td><span class="badge-status" style="background:${tagColor}18; color:${tagColor}; font-weight:700; border:1px solid ${tagColor}40;">${slide.tag || 'Slide'}</span></td>
+        <td><strong>${title}</strong><br><small style="color:#64748B;">${isEn ? slide.title_ne : (slide.title_en || '')}</small></td>
+        <td style="max-width:260px; font-size:0.84rem; color:#475569;">${descPreview}</td>
+        <td style="font-size:0.8rem;">
+          <div><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem; color:var(--admin-primary);"></i> ${slide.btn1_text_ne || 'Button 1'}</div>
+          ${slide.btn2_text_ne ? `<div style="margin-top:2px; color:#64748B;"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> ${slide.btn2_text_ne}</div>` : ''}
+        </td>
+        <td>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editHeroSlide(${slide.id})">
+              <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+            </button>
+            <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteHeroSlide(${slide.id})">
+              <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderStaffTable() {
+  const tbody = document.getElementById('adminStaffTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockStaff.map(s => {
+    const avatar = s.image 
+      ? `<img src="${s.image}" alt="${s.name}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid #CBD5E1;" onerror="this.onerror=null; this.outerHTML='<div style=\\'width:36px; height:36px; border-radius:50%; background:#EEF2FF; color:#4F46E5; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem; font-weight:700;\\'><i class=\\'fa-solid fa-user\\'></i></div>';" />`
+      : `<div style="width:36px; height:36px; border-radius:50%; background:#EEF2FF; color:#4F46E5; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem; font-weight:700;"><i class="fa-solid fa-user"></i></div>`;
+
+    return `
+      <tr>
+        <td>
+          <div style="display:flex; align-items:center; gap:10px;">
+            ${avatar}
+            <div>
+              <strong>${s.name}</strong>
+            </div>
+          </div>
+        </td>
+        <td>${s.role || '-'}</td>
+        <td><span class="badge-status status-verified">${s.dept || '-'}</span></td>
+        <td>${s.qual || '-'}</td>
+        <td>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editStaff(${s.id})">
+              <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+            </button>
+            <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteStaff(${s.id})">
+              <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderCharterTable() {
+  const tbody = document.getElementById('adminCharterTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockCharter.map((c, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td><strong>${c.service}</strong></td>
+      <td>${c.docs}</td>
+      <td><span class="badge-status status-verified">${c.branch}</span></td>
+      <td>${c.time}</td>
+      <td><strong>${c.fee}</strong></td>
+      <td>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editCharterService(${c.id})">
+            <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+          </button>
+          <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteCharterService(${c.id})">
+            <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderDownloadsTable() {
+  const tbody = document.getElementById('adminDownloadsTableBody');
+  if (!tbody) return;
+
+  const isEn = (currentAdminLang === 'en');
+  tbody.innerHTML = mockDownloads.map(d => {
+    let iconClass = 'fa-file-pdf';
+    let iconColor = '#EF4444';
+    const fileName = (d.file || '').toLowerCase();
+    if (d.type === 'doc' || fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
+      iconClass = 'fa-file-word';
+      iconColor = '#2563EB';
+    } else if (d.type === 'zip' || fileName.endsWith('.zip')) {
+      iconClass = 'fa-file-zipper';
+      iconColor = '#D97706';
+    } else if (d.type === 'excel' || fileName.endsWith('.xlsx')) {
+      iconClass = 'fa-file-excel';
+      iconColor = '#059669';
+    }
+
+    return `
+      <tr>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid ${iconClass}" style="color:${iconColor}; font-size:1.1rem;"></i>
+            <strong>${d.title}</strong>
+          </div>
+        </td>
+        <td><span class="badge-status status-verified">${d.category}</span></td>
+        <td>${d.date || '-'}</td>
+        <td>${d.size || '-'}</td>
+        <td><code style="background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:0.78rem;">${d.file}</code></td>
+        <td>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#3B82F6; color:#ffffff;" onclick="editDownload(${d.id})">
+              <i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit' : 'सम्पादन'}
+            </button>
+            <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteDownload(${d.id})">
+              <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Modal Controller Functions
+window.openAdminModal = function(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add('active', 'is-open');
+    modal.style.display = 'flex';
+  }
+};
+
+window.closeAdminModal = function(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.remove('active', 'is-open');
+    modal.style.display = 'none';
+  }
+};
+
+// Close modal when clicking on backdrop
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.classList.contains('admin-modal-backdrop')) {
+    e.target.classList.remove('active', 'is-open');
+    e.target.style.display = 'none';
+  }
+});
+
+// File Attachment Handler
+let selectedNoticeFileObj = null;
+
+window.handleNoticeFileSelect = function(input) {
+  const preview = document.getElementById('noticeFilePreviewArea');
+  const nameEl = document.getElementById('selectedNoticeFileName');
+  
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    selectedNoticeFileObj = file;
+    if (nameEl) nameEl.textContent = `${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+    if (preview) preview.style.display = 'block';
+  } else {
+    selectedNoticeFileObj = null;
+    if (preview) preview.style.display = 'none';
+  }
+};
+
+// Add New Notice Handler (Opens Modal)
+window.addNewNotice = function() {
+  const isEn = (currentAdminLang === 'en');
+  const form = document.getElementById('addNoticeForm');
+  if (form) form.reset();
+
+  const editIdInput = document.getElementById('noticeEditId');
+  if (editIdInput) editIdInput.value = '';
+
+  const preview = document.getElementById('noticeFilePreviewArea');
+  if (preview) preview.style.display = 'none';
+  selectedNoticeFileObj = null;
+
+  const modalTitle = document.getElementById('modalNoticeTitleText');
+  const btnSubmitText = document.getElementById('btnNoticeSubmitText');
+  const btnSubmitIcon = document.getElementById('btnNoticeSubmitIcon');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-file-circle-plus"></i> ${isEn ? 'Publish New Notice' : 'नयाँ सूचना प्रकाशन (Publish Notice)'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Publish Notice' : 'सूचना प्रकाशित गर्नुहोस् (Publish)';
+  }
+  if (btnSubmitIcon) {
+    btnSubmitIcon.className = 'fa-solid fa-paper-plane';
+  }
+
+  openAdminModal('addNoticeModal');
+};
+
+// Edit Existing Notice Handler (Opens Modal Pre-filled)
+window.editNotice = function(id) {
+  const notice = mockNotices.find(n => n.id === id);
+  if (!notice) return;
+
+  const isEn = (currentAdminLang === 'en');
+
+  const editIdInput = document.getElementById('noticeEditId');
+  if (editIdInput) editIdInput.value = notice.id;
+
+  const titleNeInput = document.getElementById('noticeTitleNeInput');
+  const titleEnInput = document.getElementById('noticeTitleEnInput');
+  const catInput = document.getElementById('noticeCategoryInput');
+  const dateBsInput = document.getElementById('noticeDateBsInput');
+  const contentInput = document.getElementById('noticeContentNeInput');
+
+  if (titleNeInput) titleNeInput.value = notice.title_ne || '';
+  if (titleEnInput) titleEnInput.value = notice.title_en || '';
+  if (catInput) catInput.value = notice.category || 'Admission';
+  if (dateBsInput) dateBsInput.value = notice.date_bs || '';
+  if (contentInput) contentInput.value = notice.content_ne || '';
+
+  // Current file preview
+  const preview = document.getElementById('noticeFilePreviewArea');
+  const nameEl = document.getElementById('selectedNoticeFileName');
+  selectedNoticeFileObj = null;
+  const currentFile = notice.file || notice.file_name;
+  if (preview && nameEl && currentFile) {
+    nameEl.textContent = `${currentFile} (हालको फाइल)`;
+    preview.style.display = 'block';
+  } else if (preview) {
+    preview.style.display = 'none';
+  }
+
+  // Update modal heading and action button
+  const modalTitle = document.getElementById('modalNoticeTitleText');
+  const btnSubmitText = document.getElementById('btnNoticeSubmitText');
+  const btnSubmitIcon = document.getElementById('btnNoticeSubmitIcon');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? `Edit Notice (${notice.id})` : `सूचना सम्पादन गर्नुहोस् (${notice.id})`}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Save Changes' : 'परिवर्तन सुरक्षित गर्नुहोस् (Save Changes)';
+  }
+  if (btnSubmitIcon) {
+    btnSubmitIcon.className = 'fa-solid fa-floppy-disk';
+  }
+
+  openAdminModal('addNoticeModal');
+};
+
+// Save Notice Form Submission (Add or Edit)
+window.handleSaveNotice = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('noticeEditId')?.value;
+  const titleNe = document.getElementById('noticeTitleNeInput')?.value.trim();
+  const titleEn = document.getElementById('noticeTitleEnInput')?.value.trim() || titleNe;
+  const category = document.getElementById('noticeCategoryInput')?.value || 'Admission';
+  const dateBs = document.getElementById('noticeDateBsInput')?.value.trim() || '२०८३ आश्विन १४';
+  const contentNe = document.getElementById('noticeContentNeInput')?.value.trim() || '';
+
+  if (editId) {
+    // Edit Mode
+    const idx = mockNotices.findIndex(n => n.id === editId);
+    if (idx !== -1) {
+      const existingFile = mockNotices[idx].file || mockNotices[idx].file_name || 'Notice_Document.pdf';
+      const fileName = selectedNoticeFileObj ? selectedNoticeFileObj.name : existingFile;
+
+      mockNotices[idx] = {
+        ...mockNotices[idx],
+        title_ne: titleNe,
+        title_en: titleEn,
+        category: category,
+        date_bs: dateBs,
+        file: fileName,
+        file_name: fileName,
+        content_ne: contentNe || mockNotices[idx].content_ne || titleNe
+      };
+
+      localStorage.setItem('npi_notices', JSON.stringify(mockNotices));
+      renderDashboard();
+      closeAdminModal('addNoticeModal');
+      alert(isEn ? `Notice "${titleEn}" updated successfully!` : `सूचना "${titleNe}" सफलतापूर्वक सम्पादन भयो!`);
+    }
+  } else {
+    // New Notice Mode
+    const fileName = selectedNoticeFileObj ? selectedNoticeFileObj.name : `Notice_Document_${Date.now().toString().slice(-4)}.pdf`;
+    const newId = `N-2083-${Math.floor(100 + Math.random() * 900)}`;
+
+    mockNotices.unshift({
+      id: newId,
+      title_ne: titleNe,
+      title_en: titleEn,
+      category: category,
+      date_bs: dateBs,
+      file: fileName,
+      file_name: fileName,
+      content_ne: contentNe || titleNe
+    });
+
+    localStorage.setItem('npi_notices', JSON.stringify(mockNotices));
+    renderDashboard();
+    closeAdminModal('addNoticeModal');
+    alert(isEn ? `Notice "${titleEn}" published successfully!` : `सूचना "${titleNe}" सफलतापूर्वक प्रकाशित भयो!`);
+  }
+};
+
+window.addNewTicker = function() {
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('tickerEditId');
+  if (editIdInput) editIdInput.value = '';
+
+  const textInput = document.getElementById('tickerTextInput');
+  const tagInput = document.getElementById('tickerTagInput');
+  if (textInput) textInput.value = '';
+  if (tagInput) tagInput.value = 'ताजा';
+
+  const modalTitle = document.getElementById('modalTickerTitleText');
+  const btnSubmitText = document.getElementById('btnTickerSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-bolt"></i> ${isEn ? 'Add New Ticker Alert' : 'ताजा टिकर सन्देश थप्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Save Ticker' : 'सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addTickerModal');
+};
+
+window.editTicker = function(id) {
+  const ticker = mockTickers.find(t => t.id == id);
+  if (!ticker) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('tickerEditId');
+  if (editIdInput) editIdInput.value = ticker.id;
+
+  const textInput = document.getElementById('tickerTextInput');
+  const tagInput = document.getElementById('tickerTagInput');
+  if (textInput) textInput.value = ticker.text || '';
+  if (tagInput) tagInput.value = ticker.tag || 'ताजा';
+
+  const modalTitle = document.getElementById('modalTickerTitleText');
+  const btnSubmitText = document.getElementById('btnTickerSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit Ticker Alert' : 'टिकर सन्देश सम्पादन गर्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Update Changes' : 'परिवर्तन सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addTickerModal');
+};
+
+window.handleSaveTicker = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('tickerEditId')?.value;
+  const text = document.getElementById('tickerTextInput')?.value.trim();
+  const tag = document.getElementById('tickerTagInput')?.value.trim() || 'Alert';
+  if (!text) return;
+
+  if (editId) {
+    // Edit existing ticker
+    const idx = mockTickers.findIndex(t => t.id == editId);
+    if (idx !== -1) {
+      mockTickers[idx] = {
+        ...mockTickers[idx],
+        text: text,
+        tag: tag
+      };
+      localStorage.setItem('npi_tickers', JSON.stringify(mockTickers));
+      renderTickerTable();
+      closeAdminModal('addTickerModal');
+      document.getElementById('tickerTextInput').value = '';
+      alert(isEn ? 'Ticker alert updated successfully!' : 'टिकर सन्देश सफलतापूर्वक सम्पादन भयो!');
+    }
+  } else {
+    // Add new ticker
+    mockTickers.unshift({
+      id: Date.now(),
+      text: text,
+      tag: tag
+    });
+
+    localStorage.setItem('npi_tickers', JSON.stringify(mockTickers));
+    renderTickerTable();
+    closeAdminModal('addTickerModal');
+    document.getElementById('tickerTextInput').value = '';
+    alert(isEn ? 'Ticker alert published!' : 'नयाँ टिकर अलर्ट प्रकाशित भयो!');
+  }
+};
+
+window.deleteTicker = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? 'Delete this ticker alert?' : 'के तपाईं यो टिकर हटाउन चाहनुहुन्छ?')) {
+    mockTickers = mockTickers.filter(t => t.id !== id);
+    localStorage.setItem('npi_tickers', JSON.stringify(mockTickers));
+    renderTickerTable();
+  }
+};
+
+// ==========================================
+// Hero Slider & Banner CMS Handlers
+// ==========================================
+window.handleHeroPhotoUpload = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const dataUrl = evt.target.result;
+    const imgInput = document.getElementById('heroImageInput');
+    const preview = document.getElementById('heroPhotoPreview');
+    const placeholder = document.getElementById('heroPhotoPlaceholder');
+    if (imgInput) imgInput.value = dataUrl;
+    if (preview) {
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+    }
+    if (placeholder) placeholder.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.addNewHeroSlide = function() {
+  const isEn = (currentAdminLang === 'en');
+  const form = document.getElementById('heroSlideForm');
+  if (form) form.reset();
+
+  const editId = document.getElementById('heroEditId');
+  const imgInput = document.getElementById('heroImageInput');
+  const preview = document.getElementById('heroPhotoPreview');
+  const placeholder = document.getElementById('heroPhotoPlaceholder');
+  const modalTitle = document.getElementById('modalHeroTitleText');
+  const submitText = document.getElementById('btnHeroSubmitText');
+
+  if (editId) editId.value = '';
+  if (imgInput) imgInput.value = '';
+  if (preview) {
+    preview.src = '';
+    preview.style.display = 'none';
+  }
+  if (placeholder) placeholder.style.display = 'block';
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-panorama"></i> ${isEn ? 'Add New Hero Slide' : 'नयाँ ब्यानर स्लाइड थप्नुहोस् (Add Hero Slide)'}`;
+  }
+  if (submitText) {
+    submitText.textContent = isEn ? 'Publish Slide' : 'स्लाइड सुरक्षित गर्नुहोस् (Save)';
+  }
+
+  // Set default values
+  const tagInput = document.getElementById('heroTagInput');
+  const btn1Text = document.getElementById('heroBtn1TextNe');
+  const btn1Link = document.getElementById('heroBtn1Link');
+  const btn2Text = document.getElementById('heroBtn2TextNe');
+  const btn2Link = document.getElementById('heroBtn2Link');
+
+  if (tagInput) tagInput.value = 'CTEVT Constituent Institute • Estd: 2079';
+  if (btn1Text) btn1Text.value = 'अनलाइन भर्ना आवेदन फाराम';
+  if (btn1Link) btn1Link.value = '#online-admission';
+  if (btn2Text) btn2Text.value = 'कार्यक्रमहरू हेर्नुहोस्';
+  if (btn2Link) btn2Link.value = '#programs';
+
+  openAdminModal('addHeroModal');
+};
+
+window.editHeroSlide = function(id) {
+  const slide = mockHeroSlides.find(s => s.id == id);
+  if (!slide) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('heroEditId');
+  const tagInput = document.getElementById('heroTagInput');
+  const tagColorInput = document.getElementById('heroTagColorInput');
+  const titleNeInput = document.getElementById('heroTitleNeInput');
+  const titleEnInput = document.getElementById('heroTitleEnInput');
+  const descNeInput = document.getElementById('heroDescNeInput');
+  const descEnInput = document.getElementById('heroDescEnInput');
+  const imgInput = document.getElementById('heroImageInput');
+  const preview = document.getElementById('heroPhotoPreview');
+  const placeholder = document.getElementById('heroPhotoPlaceholder');
+  const btn1Text = document.getElementById('heroBtn1TextNe');
+  const btn1Link = document.getElementById('heroBtn1Link');
+  const btn2Text = document.getElementById('heroBtn2TextNe');
+  const btn2Link = document.getElementById('heroBtn2Link');
+  const modalTitle = document.getElementById('modalHeroTitleText');
+  const submitText = document.getElementById('btnHeroSubmitText');
+
+  if (editId) editId.value = slide.id;
+  if (tagInput) tagInput.value = slide.tag || '';
+  if (tagColorInput) tagColorInput.value = slide.tag_color || '#C8102E';
+  if (titleNeInput) titleNeInput.value = slide.title_ne || '';
+  if (titleEnInput) titleEnInput.value = slide.title_en || '';
+  if (descNeInput) descNeInput.value = slide.desc_ne || '';
+  if (descEnInput) descEnInput.value = slide.desc_en || '';
+  if (imgInput) imgInput.value = slide.image || '';
+  if (btn1Text) btn1Text.value = slide.btn1_text_ne || '';
+  if (btn1Link) btn1Link.value = slide.btn1_link || '';
+  if (btn2Text) btn2Text.value = slide.btn2_text_ne || '';
+  if (btn2Link) btn2Link.value = slide.btn2_link || '';
+
+  if (slide.image && preview) {
+    preview.src = slide.image;
+    preview.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
+  } else {
+    if (preview) preview.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
+  }
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? `Edit Hero Slide (${slide.id})` : `ब्यानर स्लाइड सम्पादन (${slide.id})`}`;
+  }
+  if (submitText) {
+    submitText.textContent = isEn ? 'Save Changes' : 'परिवर्तन सुरक्षित गर्नुहोस् (Save Changes)';
+  }
+
+  openAdminModal('addHeroModal');
+};
+
+window.handleSaveHeroSlide = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('heroEditId')?.value;
+  const tag = document.getElementById('heroTagInput')?.value.trim() || 'CTEVT Constituent Institute';
+  const tagColor = document.getElementById('heroTagColorInput')?.value || '#C8102E';
+  const titleNe = document.getElementById('heroTitleNeInput')?.value.trim();
+  const titleEn = document.getElementById('heroTitleEnInput')?.value.trim() || titleNe;
+  const descNe = document.getElementById('heroDescNeInput')?.value.trim();
+  const descEn = document.getElementById('heroDescEnInput')?.value.trim() || descNe;
+  const image = document.getElementById('heroImageInput')?.value.trim() || 'assets/images/hero-campus.jpg';
+  const btn1Text = document.getElementById('heroBtn1TextNe')?.value.trim() || 'अनलाइन भर्ना आवेदन फाराम';
+  const btn1Link = document.getElementById('heroBtn1Link')?.value.trim() || '#online-admission';
+  const btn2Text = document.getElementById('heroBtn2TextNe')?.value.trim() || 'कार्यक्रमहरू हेर्नुहोस्';
+  const btn2Link = document.getElementById('heroBtn2Link')?.value.trim() || '#programs';
+
+  if (!titleNe || !descNe) {
+    alert('कृपया मुख्य शीर्षक र विवरण भर्नुहोस्।');
+    return;
+  }
+
+  if (editId) {
+    const idx = mockHeroSlides.findIndex(s => s.id == editId);
+    if (idx !== -1) {
+      mockHeroSlides[idx] = {
+        ...mockHeroSlides[idx],
+        tag,
+        tag_color: tagColor,
+        title_ne: titleNe,
+        title_en: titleEn,
+        desc_ne: descNe,
+        desc_en: descEn,
+        image,
+        btn1_text_ne: btn1Text,
+        btn1_link: btn1Link,
+        btn2_text_ne: btn2Text,
+        btn2_link: btn2Link
+      };
+      localStorage.setItem('npi_hero_slides', JSON.stringify(mockHeroSlides));
+      renderHeroTable();
+      closeAdminModal('addHeroModal');
+      alert(isEn ? 'Hero slide updated successfully!' : 'ब्यानर स्लाइड सफलतापूर्वक अद्यावधिक भयो!');
+    }
+  } else {
+    mockHeroSlides.push({
+      id: Date.now(),
+      tag,
+      tag_color: tagColor,
+      title_ne: titleNe,
+      title_en: titleEn,
+      desc_ne: descNe,
+      desc_en: descEn,
+      image,
+      btn1_text_ne: btn1Text,
+      btn1_link: btn1Link,
+      btn2_text_ne: btn2Text,
+      btn2_link: btn2Link
+    });
+    localStorage.setItem('npi_hero_slides', JSON.stringify(mockHeroSlides));
+    renderHeroTable();
+    closeAdminModal('addHeroModal');
+    alert(isEn ? 'New hero slide published!' : 'नयाँ ब्यानर स्लाइड थपियो!');
+  }
+};
+
+window.deleteHeroSlide = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? 'Delete this hero slide?' : 'के तपाईं यो ब्यानर स्लाइड हटाउन चाहनुहुन्छ?')) {
+    mockHeroSlides = mockHeroSlides.filter(s => s.id != id);
+    localStorage.setItem('npi_hero_slides', JSON.stringify(mockHeroSlides));
+    renderHeroTable();
+  }
+};
+
+window.handleStaffPhotoUpload = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const dataUrl = evt.target.result;
+    const imgInput = document.getElementById('staffImageInput');
+    const preview = document.getElementById('staffPhotoPreview');
+    const previewWrap = document.getElementById('staffPhotoPreviewWrap');
+    if (imgInput) imgInput.value = dataUrl;
+    if (preview) preview.src = dataUrl;
+    if (previewWrap) previewWrap.style.display = 'flex';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.clearStaffPhoto = function() {
+  const imgInput = document.getElementById('staffImageInput');
+  const fileInput = document.getElementById('staffFileInput');
+  const preview = document.getElementById('staffPhotoPreview');
+  const previewWrap = document.getElementById('staffPhotoPreviewWrap');
+  if (imgInput) imgInput.value = '';
+  if (fileInput) fileInput.value = '';
+  if (preview) preview.src = '';
+  if (previewWrap) previewWrap.style.display = 'none';
+};
+
+window.addNewStaff = function() {
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('staffEditId');
+  if (editIdInput) editIdInput.value = '';
+
+  const nameInput = document.getElementById('staffNameInput');
+  const roleInput = document.getElementById('staffRoleInput');
+  const deptInput = document.getElementById('staffDeptInput');
+  const qualInput = document.getElementById('staffQualInput');
+  const imgInput = document.getElementById('staffImageInput');
+  const previewWrap = document.getElementById('staffPhotoPreviewWrap');
+
+  if (nameInput) nameInput.value = '';
+  if (roleInput) roleInput.value = '';
+  if (deptInput) deptInput.value = 'Health Sciences';
+  if (qualInput) qualInput.value = '';
+  if (imgInput) imgInput.value = '';
+  if (previewWrap) previewWrap.style.display = 'none';
+
+  const modalTitle = document.getElementById('modalStaffTitleText');
+  const btnSubmitText = document.getElementById('btnStaffSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-user-plus"></i> ${isEn ? 'Add New Faculty & Staff' : 'नयाँ शिक्षक / कर्मचारी थप्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Add Staff' : 'थप्नुहोस्';
+  }
+
+  openAdminModal('addStaffModal');
+};
+
+window.editStaff = function(id) {
+  const staff = mockStaff.find(s => s.id == id);
+  if (!staff) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('staffEditId');
+  if (editIdInput) editIdInput.value = staff.id;
+
+  const nameInput = document.getElementById('staffNameInput');
+  const roleInput = document.getElementById('staffRoleInput');
+  const deptInput = document.getElementById('staffDeptInput');
+  const qualInput = document.getElementById('staffQualInput');
+  const imgInput = document.getElementById('staffImageInput');
+  const preview = document.getElementById('staffPhotoPreview');
+  const previewWrap = document.getElementById('staffPhotoPreviewWrap');
+
+  if (nameInput) nameInput.value = staff.name || '';
+  if (roleInput) roleInput.value = staff.role || '';
+  if (deptInput) deptInput.value = staff.dept || 'Health Sciences';
+  if (qualInput) qualInput.value = staff.qual || '';
+  if (imgInput) imgInput.value = staff.image || '';
+
+  if (staff.image && preview && previewWrap) {
+    preview.src = staff.image;
+    previewWrap.style.display = 'flex';
+  } else if (previewWrap) {
+    previewWrap.style.display = 'none';
+  }
+
+  const modalTitle = document.getElementById('modalStaffTitleText');
+  const btnSubmitText = document.getElementById('btnStaffSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit Faculty / Staff' : 'कर्मचारी विवरण सम्पादन गर्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Update Profile' : 'परिवर्तन सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addStaffModal');
+};
+
+window.handleSaveStaff = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('staffEditId')?.value;
+  const name = document.getElementById('staffNameInput')?.value.trim();
+  const role = document.getElementById('staffRoleInput')?.value.trim();
+  const dept = document.getElementById('staffDeptInput')?.value || 'Health Sciences';
+  const qual = document.getElementById('staffQualInput')?.value.trim() || '';
+  const image = document.getElementById('staffImageInput')?.value.trim() || '';
+
+  if (!name) return;
+
+  if (editId) {
+    // Edit existing staff
+    const idx = mockStaff.findIndex(s => s.id == editId);
+    if (idx !== -1) {
+      mockStaff[idx] = {
+        ...mockStaff[idx],
+        name: name,
+        role: role,
+        dept: dept,
+        qual: qual,
+        image: image
+      };
+      localStorage.setItem('npi_staff', JSON.stringify(mockStaff));
+      renderStaffTable();
+      closeAdminModal('addStaffModal');
+      clearStaffPhoto();
+      alert(isEn ? 'Staff profile updated!' : 'कर्मचारी विवरण सफलतापूर्वक सम्पादन भयो!');
+    }
+  } else {
+    // Add new staff
+    mockStaff.push({
+      id: Date.now(),
+      name: name,
+      role: role,
+      dept: dept,
+      qual: qual,
+      image: image
+    });
+
+    localStorage.setItem('npi_staff', JSON.stringify(mockStaff));
+    renderStaffTable();
+    closeAdminModal('addStaffModal');
+    clearStaffPhoto();
+    alert(isEn ? 'New staff profile added!' : 'नयाँ कर्मचारी विवरण थपियो!');
+  }
+};
+
+window.deleteStaff = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? 'Delete this staff profile?' : 'के तपाईं यो कर्मचारी विवरण हटाउन चाहनुहुन्छ?')) {
+    mockStaff = mockStaff.filter(s => s.id !== id);
+    localStorage.setItem('npi_staff', JSON.stringify(mockStaff));
+    renderStaffTable();
+  }
+};
+
+window.addNewCharterService = function() {
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('charterEditId');
+  if (editIdInput) editIdInput.value = '';
+
+  const serviceInput = document.getElementById('charterServiceInput');
+  const docsInput = document.getElementById('charterDocsInput');
+  const branchInput = document.getElementById('charterBranchInput');
+  const timeInput = document.getElementById('charterTimeInput');
+  const feeInput = document.getElementById('charterFeeInput');
+
+  if (serviceInput) serviceInput.value = '';
+  if (docsInput) docsInput.value = '';
+  if (branchInput) branchInput.value = 'प्रशासन शाखा';
+  if (timeInput) timeInput.value = 'सोही दिन';
+  if (feeInput) feeInput.value = 'निःशुल्क';
+
+  const modalTitle = document.getElementById('modalCharterTitleText');
+  const btnSubmitText = document.getElementById('btnCharterSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-scroll"></i> ${isEn ? 'Add New Charter Service' : 'नयाँ सेवा विवरण थप्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Save Service' : 'सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addCharterModal');
+};
+
+window.editCharterService = function(id) {
+  const item = mockCharter.find(c => c.id == id);
+  if (!item) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('charterEditId');
+  if (editIdInput) editIdInput.value = item.id;
+
+  const serviceInput = document.getElementById('charterServiceInput');
+  const docsInput = document.getElementById('charterDocsInput');
+  const branchInput = document.getElementById('charterBranchInput');
+  const timeInput = document.getElementById('charterTimeInput');
+  const feeInput = document.getElementById('charterFeeInput');
+
+  if (serviceInput) serviceInput.value = item.service || '';
+  if (docsInput) docsInput.value = item.docs || '';
+  if (branchInput) branchInput.value = item.branch || '';
+  if (timeInput) timeInput.value = item.time || '';
+  if (feeInput) feeInput.value = item.fee || '';
+
+  const modalTitle = document.getElementById('modalCharterTitleText');
+  const btnSubmitText = document.getElementById('btnCharterSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit Service' : 'बडापत्र सेवा सम्पादन गर्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Update Service' : 'परिवर्तन सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addCharterModal');
+};
+
+window.handleSaveCharterService = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('charterEditId')?.value;
+  const service = document.getElementById('charterServiceInput')?.value.trim();
+  const docs = document.getElementById('charterDocsInput')?.value.trim();
+  const branch = document.getElementById('charterBranchInput')?.value.trim() || 'प्रशासन शाखा';
+  const time = document.getElementById('charterTimeInput')?.value.trim() || 'सोही दिन';
+  const fee = document.getElementById('charterFeeInput')?.value.trim() || 'निःशुल्क';
+
+  if (!service) return;
+
+  if (editId) {
+    // Edit existing service
+    const idx = mockCharter.findIndex(c => c.id == editId);
+    if (idx !== -1) {
+      mockCharter[idx] = {
+        ...mockCharter[idx],
+        service: service,
+        docs: docs,
+        branch: branch,
+        time: time,
+        fee: fee
+      };
+      localStorage.setItem('npi_charter', JSON.stringify(mockCharter));
+      renderCharterTable();
+      closeAdminModal('addCharterModal');
+      alert(isEn ? 'Service details updated!' : 'सेवा विवरण सफलतापूर्वक सम्पादन भयो!');
+    }
+  } else {
+    // Add new service
+    mockCharter.push({
+      id: Date.now(),
+      service: service,
+      docs: docs,
+      branch: branch,
+      time: time,
+      fee: fee
+    });
+    localStorage.setItem('npi_charter', JSON.stringify(mockCharter));
+    renderCharterTable();
+    closeAdminModal('addCharterModal');
+    alert(isEn ? 'New service added to Citizen Charter!' : 'नागरिक बडापत्रमा नयाँ सेवा थपियो!');
+  }
+};
+
+window.deleteCharterService = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? 'Delete this service from citizen charter?' : 'के तपाईं यो सेवा नागरिक बडापत्रबाट हटाउन चाहनुहुन्छ?')) {
+    mockCharter = mockCharter.filter(c => c.id !== id);
+    localStorage.setItem('npi_charter', JSON.stringify(mockCharter));
+    renderCharterTable();
+  }
+};
+
+window.handleDownloadFileUpload = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  const nameInput = document.getElementById('downloadFileNameInput');
+  const sizeInput = document.getElementById('downloadSizeInput');
+  const titleInput = document.getElementById('downloadTitleInput');
+
+  if (nameInput) nameInput.value = file.name;
+  if (sizeInput && !sizeInput.value) {
+    const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
+    sizeInput.value = (sizeInMB > 0.1) ? `${sizeInMB} MB` : `${Math.round(file.size / 1024)} KB`;
+  }
+  if (titleInput && !titleInput.value) {
+    titleInput.value = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
+  }
+};
+
+window.addNewDownload = function() {
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('downloadEditId');
+  if (editIdInput) editIdInput.value = '';
+
+  const titleInput = document.getElementById('downloadTitleInput');
+  const catInput = document.getElementById('downloadCategoryInput');
+  const dateInput = document.getElementById('downloadDateInput');
+  const sizeInput = document.getElementById('downloadSizeInput');
+  const typeInput = document.getElementById('downloadTypeInput');
+  const fileInput = document.getElementById('downloadFileNameInput');
+
+  if (titleInput) titleInput.value = '';
+  if (catInput) catInput.value = 'Syllabus';
+  if (dateInput) dateInput.value = '२०८३/०५/१०';
+  if (sizeInput) sizeInput.value = '2.0 MB';
+  if (typeInput) typeInput.value = 'pdf';
+  if (fileInput) fileInput.value = '';
+
+  const modalTitle = document.getElementById('modalDownloadTitleText');
+  const btnSubmitText = document.getElementById('btnDownloadSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-file-circle-plus"></i> ${isEn ? 'Add New Download Resource' : 'नयाँ डाउनलोड सामग्री थप्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Add Resource' : 'थप्नुहोस्';
+  }
+
+  openAdminModal('addDownloadModal');
+};
+
+window.editDownload = function(id) {
+  const item = mockDownloads.find(d => d.id == id);
+  if (!item) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const editIdInput = document.getElementById('downloadEditId');
+  if (editIdInput) editIdInput.value = item.id;
+
+  const titleInput = document.getElementById('downloadTitleInput');
+  const catInput = document.getElementById('downloadCategoryInput');
+  const dateInput = document.getElementById('downloadDateInput');
+  const sizeInput = document.getElementById('downloadSizeInput');
+  const typeInput = document.getElementById('downloadTypeInput');
+  const fileInput = document.getElementById('downloadFileNameInput');
+
+  if (titleInput) titleInput.value = item.title || '';
+  if (catInput) catInput.value = item.category || 'Syllabus';
+  if (dateInput) dateInput.value = item.date || '';
+  if (sizeInput) sizeInput.value = item.size || '';
+  if (typeInput) typeInput.value = item.type || 'pdf';
+  if (fileInput) fileInput.value = item.file || '';
+
+  const modalTitle = document.getElementById('modalDownloadTitleText');
+  const btnSubmitText = document.getElementById('btnDownloadSubmitText');
+
+  if (modalTitle) {
+    modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${isEn ? 'Edit Resource' : 'डाउनलोड सामग्री सम्पादन गर्नुहोस्'}`;
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = isEn ? 'Update Resource' : 'परिवर्तन सुरक्षित गर्नुहोस्';
+  }
+
+  openAdminModal('addDownloadModal');
+};
+
+window.handleSaveDownload = function(e) {
+  e.preventDefault();
+  const isEn = (currentAdminLang === 'en');
+  const editId = document.getElementById('downloadEditId')?.value;
+  const title = document.getElementById('downloadTitleInput')?.value.trim();
+  const category = document.getElementById('downloadCategoryInput')?.value || 'Syllabus';
+  const date = document.getElementById('downloadDateInput')?.value.trim() || '२०८३/०५/१०';
+  const size = document.getElementById('downloadSizeInput')?.value.trim() || '2.0 MB';
+  const type = document.getElementById('downloadTypeInput')?.value || 'pdf';
+  const file = document.getElementById('downloadFileNameInput')?.value.trim() || 'document.pdf';
+
+  if (!title) return;
+
+  if (editId) {
+    const idx = mockDownloads.findIndex(d => d.id == editId);
+    if (idx !== -1) {
+      mockDownloads[idx] = {
+        ...mockDownloads[idx],
+        title,
+        category,
+        date,
+        size,
+        type,
+        file
+      };
+      localStorage.setItem('npi_downloads', JSON.stringify(mockDownloads));
+      renderDownloadsTable();
+      closeAdminModal('addDownloadModal');
+      alert(isEn ? 'Download resource updated!' : 'डाउनलोड सामग्री सफलतापूर्वक सम्पादन भयो!');
+    }
+  } else {
+    mockDownloads.push({
+      id: Date.now(),
+      title,
+      category,
+      date,
+      size,
+      type,
+      file
+    });
+    localStorage.setItem('npi_downloads', JSON.stringify(mockDownloads));
+    renderDownloadsTable();
+    closeAdminModal('addDownloadModal');
+    alert(isEn ? 'New download resource added!' : 'नयाँ डाउनलोड सामग्री थपियो!');
+  }
+};
+
+window.deleteDownload = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? 'Delete this resource item?' : 'के तपाईं यो डाउनलोड सामग्री हटाउन चाहनुहुन्छ?')) {
+    mockDownloads = mockDownloads.filter(d => d.id !== id);
+    localStorage.setItem('npi_downloads', JSON.stringify(mockDownloads));
+    renderDownloadsTable();
+  }
+};
+
+window.exportAdmissionsToCSV = function() {
+  let csv = "Applicant ID,Full Name (Ne),Full Name (En),Program,Quota,SEE GPA,Science Grade,Phone,District,School,Status\n";
+  mockAdmissions.forEach(a => {
+    csv += `"${a.app_id}","${a.name_ne}","${a.name_en}","${a.program}","${a.quota}","${a.gpa}","${a.grade_sci}","${a.phone}","${a.district}","${a.school}","${a.status}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', `NPI_Admissions_List_2083_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+window.deleteNotice = function(id) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? `Delete notice ${id}?` : `के तपाईं यो सूचना (${id}) हटाउन चाहनुहुन्छ?`)) {
+    mockNotices = mockNotices.filter(n => n.id !== id);
+    localStorage.setItem('npi_notices', JSON.stringify(mockNotices));
+    renderDashboard();
+  }
+};
+
+window.viewApplicantDetail = function(appId) {
+  const app = mockAdmissions.find(a => a.app_id === appId);
+  if (!app) return;
+
+  const isEn = (currentAdminLang === 'en');
+  const badgeId = document.getElementById('modalAppIdBadge');
+  const nameTitle = document.getElementById('modalApplicantName');
+  const modalBody = document.getElementById('modalApplicantBody');
+
+  if (badgeId) badgeId.textContent = `APPLICANT ID: ${app.app_id}`;
+  if (nameTitle) nameTitle.textContent = `${app.name_ne} (${app.name_en})`;
+
+  if (modalBody) {
+    modalBody.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; background:#F8FAFC; padding:0.9rem 1.2rem; border-radius:8px; border:1px solid #E2E8F0;">
+        <div>
+          <span style="font-size:0.75rem; color:#64748B; font-weight:700;">${isEn ? 'APPLIED PROGRAM' : 'आवेदन गरेको कार्यक्रम'}</span>
+          <h4 style="color:var(--admin-primary); margin:2px 0 0; font-size:1.05rem;">${app.program}</h4>
+        </div>
+        <div>
+          <span class="badge-status ${app.status === 'Verified' ? 'status-verified' : 'status-pending'}" style="font-size:0.85rem; padding:4px 12px;">
+            <i class="fa-solid ${app.status === 'Verified' ? 'fa-circle-check' : 'fa-clock'}"></i> ${app.status}
+          </span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+        <div style="background:#FFFFFF; border:1px solid #E2E8F0; padding:1rem; border-radius:8px;">
+          <h5 style="color:#0F3870; margin:0 0 0.6rem; font-size:0.88rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.35rem;">
+            <i class="fa-solid fa-graduation-cap"></i> ${isEn ? 'Academic Details (SEE)' : 'शैक्षिक विवरण (SEE)'}
+          </h5>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'Overall SEE GPA:' : 'प्राप्त GPA:'}</strong> <span style="color:#D97706; font-weight:800; font-size:1rem;">${app.gpa}</span></p>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'Compulsory Science:' : 'विज्ञान ग्रेड:'}</strong> ${app.grade_sci}</p>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'SEE Symbol No:' : 'सिम्बोल नं:'}</strong> ${app.symbol_no}</p>
+          <p style="margin:0; font-size:0.85rem;"><strong>${isEn ? 'School Name:' : 'विद्यालय:'}</strong> ${app.school}</p>
+        </div>
+
+        <div style="background:#FFFFFF; border:1px solid #E2E8F0; padding:1rem; border-radius:8px;">
+          <h5 style="color:#0F3870; margin:0 0 0.6rem; font-size:0.88rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.35rem;">
+            <i class="fa-solid fa-address-card"></i> ${isEn ? 'Personal & Quota' : 'व्यक्तिगत तथा कोटा विवरण'}
+          </h5>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'Category Quota:' : 'कोटा श्रेणी:'}</strong> <span style="background:#EBF3FD; color:#0F3870; padding:2px 6px; border-radius:4px; font-weight:600;">${app.quota}</span></p>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'Phone / Contact:' : 'सम्पर्क नम्बर:'}</strong> ${app.phone}</p>
+          <p style="margin:0 0 0.4rem; font-size:0.85rem;"><strong>${isEn ? 'Permanent Address:' : 'स्थायी ठेगाना:'}</strong> ${app.district}</p>
+          <p style="margin:0; font-size:0.85rem;"><strong>${isEn ? 'Submission Date:' : 'आवेदन मिति:'}</strong> ${app.date}</p>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E2E8F0; padding-top:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-admin ${app.status === 'Verified' ? 'btn-admin-danger' : 'btn-admin-success'}" style="font-size:0.85rem;" onclick="toggleApplicantVerification('${app.app_id}')">
+            <i class="fa-solid ${app.status === 'Verified' ? 'fa-xmark' : 'fa-check'}"></i> 
+            ${app.status === 'Verified' ? (isEn ? 'Mark as Pending' : 'प्रमाणिकरण रद्द (Pending)') : (isEn ? 'Verify Applicant' : 'प्रमाणित गर्नुहोस् (Verify)')}
+          </button>
+          <button class="btn-admin btn-admin-danger" style="font-size:0.85rem;" onclick="deleteAdmission('${app.app_id}')">
+            <i class="fa-solid fa-trash"></i> ${isEn ? 'Delete' : 'हटाउनुहोस्'}
+          </button>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-admin" style="background:#E2E8F0; color:#334155;" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> ${isEn ? 'Print Slip' : 'प्रिन्ट स्लिप'}
+          </button>
+          <button class="btn-admin btn-admin-primary" onclick="closeAdminModal('applicantDetailModal')">
+            ${isEn ? 'Close' : 'बन्द गर्नुहोस्'}
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  openAdminModal('applicantDetailModal');
+};
+
+window.toggleApplicantVerification = function(appId) {
+  const app = mockAdmissions.find(a => a.app_id === appId);
+  if (!app) return;
+  
+  app.status = (app.status === 'Verified') ? 'Pending' : 'Verified';
+  localStorage.setItem('npi_admissions', JSON.stringify(mockAdmissions));
+  renderDashboard();
+  viewApplicantDetail(appId);
+};
+
+window.deleteAdmission = function(appId) {
+  const isEn = (currentAdminLang === 'en');
+  if (confirm(isEn ? `Are you sure you want to delete application ${appId}?` : `के तपाईं आवेदन (${appId}) विवरण स्थायी रूपमा हटाउन चाहनुहुन्छ?`)) {
+    mockAdmissions = mockAdmissions.filter(a => a.app_id !== appId);
+    localStorage.setItem('npi_admissions', JSON.stringify(mockAdmissions));
+    renderDashboard();
+    closeAdminModal('applicantDetailModal');
+  }
+};
+
+// ==========================================
+// Emergency Admission Pop-up Modal Settings
+// ==========================================
+function renderPopupSettingsForm() {
+  const isEn = (currentAdminLang === 'en');
+  const raw = localStorage.getItem('npi_popup_settings');
+  let config = {
+    enabled: true,
+    badge: 'शैक्षिक सत्र २०८३/२०८४ नयाँ भर्ना',
+    title: 'CTEVT Diploma in Civil Engineering (Hydropower) तथा Diploma in Civil Engineering (Hydropower) मा भर्ना खुल्यो!',
+    desc: 'यस शिक्षालयमा ३ वर्षे प्रमाणपत्र तह सामान्य चिकित्सा (HA) र डिप्लोमा इन फार्मेसी (Pharmacy) का लागि योग्यताक्रम तथा वर्गीकृत छात्रवृत्ति तर्फ नयाँ भर्ना आवेदन फाराम खुला गरिएको छ।',
+    headerTitle: 'अत्यन्त जरुरी भर्ना सम्बन्धी सूचना!'
+  };
+
+  if (raw) {
+    try {
+      config = { ...config, ...JSON.parse(raw) };
+    } catch(e) {}
+  }
+
+  const enabledSelect = document.getElementById('popupEnabledInput');
+  const badgeInput = document.getElementById('popupBadgeInput');
+  const titleInput = document.getElementById('popupTitleInput');
+  const descInput = document.getElementById('popupDescInput');
+  const statusBadge = document.getElementById('popupStatusBadge');
+
+  if (enabledSelect) enabledSelect.value = String(config.enabled);
+  if (badgeInput) badgeInput.value = config.badge;
+  if (titleInput) titleInput.value = config.title;
+  if (descInput) descInput.value = config.desc;
+
+  if (statusBadge) {
+    if (config.enabled) {
+      statusBadge.className = 'badge-status status-verified';
+      statusBadge.textContent = isEn ? 'Active' : 'सक्रिय (Active)';
+    } else {
+      statusBadge.className = 'badge-status status-pending';
+      statusBadge.textContent = isEn ? 'Disabled' : 'निष्कृय (Disabled)';
+    }
+  }
+}
+
+window.savePopupSettings = function(e) {
+  if (e) e.preventDefault();
+  const enabled = document.getElementById('popupEnabledInput')?.value === 'true';
+  const badge = document.getElementById('popupBadgeInput')?.value.trim();
+  const title = document.getElementById('popupTitleInput')?.value.trim();
+  const desc = document.getElementById('popupDescInput')?.value.trim();
+
+  const config = {
+    enabled,
+    badge: badge || 'शैक्षिक सत्र २०८३/२०८४ नयाँ भर्ना',
+    title: title || 'CTEVT Diploma in Civil Engineering (Hydropower) तथा Diploma in Civil Engineering (Hydropower) मा भर्ना खुल्यो!',
+    desc: desc || 'यस शिक्षालयमा ३ वर्षे प्रमाणपत्र तह सामान्य चिकित्सा (HA) र डिप्लोमा इन फार्मेसी (Pharmacy) का लागि योग्यताक्रम तथा वर्गीकृत छात्रवृत्ति तर्फ नयाँ भर्ना आवेदन फाराम खुला गरिएको छ।',
+    headerTitle: 'अत्यन्त जरुरी भर्ना सम्बन्धी सूचना!'
+  };
+
+  localStorage.setItem('npi_popup_settings', JSON.stringify(config));
+  // Clear dismiss cache so user sees new popup immediately
+  localStorage.removeItem('npi_notice_dismissed_v1');
+
+  renderPopupSettingsForm();
+  alert(currentAdminLang === 'en' ? '✅ Pop-up settings saved successfully!' : '✅ पप-अप सूचनाको सेटिङ सफलतापूर्वक सुरक्षित (Save) गरियो!');
+};
+
+window.resetPopupDismissCache = function() {
+  localStorage.removeItem('npi_notice_dismissed_v1');
+  alert(currentAdminLang === 'en' ? '🔄 Pop-up dismiss cache cleared! You can now visit the homepage to preview the popup.' : '🔄 पप-अप क्यास रिसेट गरियो! अब मुख्य वेबसाइट खोल्दा पप-अप तुरुन्त देखिनेछ।');
+};
+
+// ==========================================
+// Inquiries & Contact Messages Manager
+// ==========================================
+let currentInquiryFilter = 'all';
+
+window.filterInquiries = function(filter, btn) {
+  currentInquiryFilter = filter;
+  ['filterInqAll', 'filterInqNew', 'filterInqReplied'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.background = '#E2E8F0';
+      el.style.color = '#334155';
+    }
+  });
+  if (btn) {
+    btn.style.background = 'var(--admin-primary)';
+    btn.style.color = '#ffffff';
+  }
+  renderInquiriesTable();
+};
+
+window.updateInquiryUnreadBadge = function() {
+  const badge = document.getElementById('unreadInquiriesBadge');
+  const countAll = document.getElementById('inquiryCountAll');
+  const countNew = document.getElementById('inquiryCountNew');
+  const countReplied = document.getElementById('inquiryCountReplied');
+
+  const unreadCount = mockInquiries.filter(i => i.status === 'New').length;
+  const repliedCount = mockInquiries.filter(i => i.status === 'Replied').length;
+
+  if (badge) {
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount;
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+  if (countAll) countAll.textContent = mockInquiries.length;
+  if (countNew) countNew.textContent = unreadCount;
+  if (countReplied) countReplied.textContent = repliedCount;
+};
+
+window.renderInquiriesTable = function() {
+  const tbody = document.getElementById('adminInquiriesTableBody');
+  if (!tbody) return;
+
+  updateInquiryUnreadBadge();
+
+  let list = mockInquiries;
+  if (currentInquiryFilter === 'new') {
+    list = mockInquiries.filter(i => i.status === 'New');
+  } else if (currentInquiryFilter === 'replied') {
+    list = mockInquiries.filter(i => i.status === 'Replied');
+  }
+
+  const isEn = (currentAdminLang === 'en');
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--admin-text-muted); padding:2rem;">कुनै सन्देश फेला परेन (No messages in this folder)</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(inq => {
+    const isNew = inq.status === 'New';
+    const statusBadge = isNew
+      ? `<span class="badge-status" style="background:#FEE2E2; color:#DC2626;"><i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> नयाँ (New)</span>`
+      : `<span class="badge-status status-verified"><i class="fa-solid fa-check"></i> जवाफ दिइयो (Replied)</span>`;
+
+    const msgPreview = inq.message.length > 50 ? inq.message.substring(0, 50) + '...' : inq.message;
+
+    return `
+      <tr style="${isNew ? 'font-weight:600; background:#F8FAFC;' : ''}">
+        <td>${inq.date || '-'}</td>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; color:#0284C7; display:flex; align-items:center; justify-content:center; font-size:0.85rem;">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <strong>${inq.name}</strong>
+          </div>
+        </td>
+        <td>
+          <div style="font-size:0.82rem;">
+            <div><i class="fa-solid fa-phone" style="color:#64748B; font-size:0.75rem;"></i> <a href="tel:${inq.phone}" style="color:#0284C7;">${inq.phone}</a></div>
+            ${inq.email ? `<div><i class="fa-solid fa-envelope" style="color:#64748B; font-size:0.75rem;"></i> <a href="mailto:${inq.email}" style="color:#0284C7;">${inq.email}</a></div>` : ''}
+          </div>
+        </td>
+        <td><span class="badge-status" style="background:#F1F5F9; color:#334155;">${inq.subject || 'General'}</span></td>
+        <td style="max-width:240px; color:#475569; font-size:0.85rem;">${msgPreview}</td>
+        <td>${statusBadge}</td>
+        <td>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="btn-admin" style="padding:4px 8px; font-size:0.75rem; background:#0284C7; color:#ffffff;" onclick="viewInquiryDetail('${inq.id}')">
+              <i class="fa-solid fa-eye"></i> ${isEn ? 'View' : 'हेर्नुहोस्'}
+            </button>
+            <button class="btn-admin btn-admin-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteInquiry('${inq.id}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+};
+
+window.viewInquiryDetail = function(id) {
+  const inq = mockInquiries.find(i => i.id === id);
+  if (!inq) return;
+
+  const titleEl = document.getElementById('modalInquirySenderName');
+  const badgeEl = document.getElementById('modalInquiryIdBadge');
+  const bodyEl = document.getElementById('modalInquiryBody');
+
+  if (titleEl) titleEl.textContent = inq.name;
+  if (badgeEl) badgeEl.textContent = `${inq.id} • ${inq.date}`;
+
+  if (bodyEl) {
+    bodyEl.innerHTML = `
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div style="background:#F1F5F9; padding:1rem; border-radius:8px; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.88rem;">
+          <div><strong>सम्पर्क फोन:</strong> <a href="tel:${inq.phone}" style="color:#0284C7; font-weight:700;">${inq.phone}</a></div>
+          <div><strong>इमेल:</strong> ${inq.email ? `<a href="mailto:${inq.email}" style="color:#0284C7;">${inq.email}</a>` : 'उपलब्ध छैन'}</div>
+          <div><strong>विषय:</strong> ${inq.subject || 'General'}</div>
+          <div><strong>हालको स्थिति:</strong> <span class="badge-status ${inq.status === 'New' ? 'status-pending' : 'status-verified'}">${inq.status}</span></div>
+        </div>
+
+        <div>
+          <label style="font-size:0.85rem; font-weight:700; color:#334155; display:block; margin-bottom:0.4rem;">सन्देश / जिज्ञासाको पूर्ण विवरण:</label>
+          <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:8px; padding:1rem; line-height:1.7; font-size:0.95rem; color:#1E293B;">
+            ${inq.message}
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E2E8F0; padding-top:1rem; margin-top:0.5rem; flex-wrap:wrap; gap:0.5rem;">
+          <div style="display:flex; gap:0.5rem;">
+            <a href="tel:${inq.phone}" class="btn-admin" style="background:#059669; color:#fff; text-decoration:none;">
+              <i class="fa-solid fa-phone"></i> फोन गर्नुहोस्
+            </a>
+            ${inq.email ? `<a href="mailto:${inq.email}?subject=Reply from Nilkantha Polytechnic Institute" class="btn-admin" style="background:#3B82F6; color:#fff; text-decoration:none;"><i class="fa-solid fa-envelope"></i> इमेल पठाउनुहोस्</a>` : ''}
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn-admin" style="background:#D97706; color:#fff;" onclick="updateInquiryStatus('${inq.id}', '${inq.status === 'New' ? 'Replied' : 'New'}')">
+              <i class="fa-solid fa-arrow-rotate-right"></i> ${inq.status === 'New' ? 'Mark as Replied' : 'Mark as New'}
+            </button>
+            <button class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('viewInquiryModal')">बन्द गर्नुहोस्</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  openAdminModal('viewInquiryModal');
+};
+
+window.updateInquiryStatus = function(id, newStatus) {
+  const idx = mockInquiries.findIndex(i => i.id === id);
+  if (idx !== -1) {
+    mockInquiries[idx].status = newStatus;
+    localStorage.setItem('npi_inquiries', JSON.stringify(mockInquiries));
+    renderInquiriesTable();
+    closeAdminModal('viewInquiryModal');
+  }
+};
+
+window.deleteInquiry = function(id) {
+  if (confirm('के तपाईं यो सन्देश हटाउन चाहनुहुन्छ?')) {
+    mockInquiries = mockInquiries.filter(i => i.id !== id);
+    localStorage.setItem('npi_inquiries', JSON.stringify(mockInquiries));
+    renderInquiriesTable();
+  }
+};
+
+window.openContactSettingsModal = function() {
+  const loc = document.getElementById('settingLocationInput');
+  const ph = document.getElementById('settingPhoneInput');
+  const em = document.getElementById('settingEmailInput');
+  const hr = document.getElementById('settingHoursInput');
+  const fb = document.getElementById('settingFacebookInput');
+  const yt = document.getElementById('settingYoutubeInput');
+
+  if (loc) loc.value = mockContactInfo.location || '';
+  if (ph) ph.value = mockContactInfo.phone || '';
+  if (em) em.value = mockContactInfo.email || '';
+  if (hr) hr.value = mockContactInfo.hours || '';
+  if (fb) fb.value = mockContactInfo.facebook || '';
+  if (yt) yt.value = mockContactInfo.youtube || '';
+
+  openAdminModal('contactSettingsModal');
+};
+
+window.handleSaveContactSettings = function(e) {
+  e.preventDefault();
+  mockContactInfo = {
+    location: document.getElementById('settingLocationInput')?.value.trim() || mockContactInfo.location,
+    phone: document.getElementById('settingPhoneInput')?.value.trim() || mockContactInfo.phone,
+    email: document.getElementById('settingEmailInput')?.value.trim() || mockContactInfo.email,
+    hours: document.getElementById('settingHoursInput')?.value.trim() || mockContactInfo.hours,
+    facebook: document.getElementById('settingFacebookInput')?.value.trim() || mockContactInfo.facebook,
+    youtube: document.getElementById('settingYoutubeInput')?.value.trim() || mockContactInfo.youtube
+  };
+
+  localStorage.setItem('npi_contact_info', JSON.stringify(mockContactInfo));
+  closeAdminModal('contactSettingsModal');
+  alert('शिक्षालयको सम्पर्क तथा ठेगाना विवरण सफलतापूर्वक अपडेट भयो!');
+};
+
+// ==========================================
+// Cross-Tab Live Synchronization
+// ==========================================
+window.addEventListener('storage', (e) => {
+  if (e.key === 'npi_admissions') {
+    mockAdmissions = loadStoredAdmissions();
+    renderKPIs();
+    renderOverviewRecent();
+    if (activeView === 'admissions' || activeView === 'overview') {
+      renderAdmissionsTable();
+    }
+  } else if (e.key === 'npi_inquiries') {
+    mockInquiries = JSON.parse(localStorage.getItem('npi_inquiries') || 'null') || defaultInquiries;
+    updateInquiryUnreadBadge();
+    if (activeView === 'inquiries') {
+      renderInquiriesTable();
+    }
+  } else if (e.key === 'npi_notices') {
+    mockNotices = loadStoredAdminNotices();
+    renderKPIs();
+    renderOverviewRecent();
+    if (activeView === 'notices') {
+      renderNoticesTable();
+    }
+  } else if (e.key === 'npi_hero_slides') {
+    mockHeroSlides = loadStoredHeroSlides();
+    if (activeView === 'hero') {
+      renderHeroTable();
+    }
+  }
+});
+

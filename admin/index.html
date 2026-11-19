@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | निलकण्ठ बहुप्राविधिक शिक्षालय (CTEVT), धादिङ</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ==========================================
+       1. Admin Login View
+       ========================================== -->
+  <div class="login-wrapper" id="adminLoginView">
+    <div class="login-card">
+      <svg class="login-logo" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" fill="#0F3870" stroke="#D97706" stroke-width="3"/>
+        <circle cx="45" cy="45" r="35" fill="#FFFFFF"/>
+        <path d="M30 55 Q45 48 45 35 Q45 48 60 55 L60 38 Q45 30 45 22 Q45 30 30 38 Z" fill="#C8102E"/>
+        <circle cx="45" cy="22" r="4" fill="#D97706"/>
+      </svg>
+      <h2 class="login-title" data-admin-i18n="login_title">निलकण्ठ बहुप्राविधिक शिक्षालय</h2>
+      <p class="login-desc" data-admin-i18n="login_sub">प्रशासन तथा भर्ना व्यवस्थापन पोर्टल (Admin Login)</p>
+
+      <form id="adminLoginForm">
+        <input type="password" id="adminPinInput" class="login-input" placeholder="सुरक्षा पिन वा पासवर्ड प्रविष्ट गर्नुहोस्" data-admin-i18n="login_placeholder" required />
+        <button type="submit" class="btn-admin btn-admin-primary" style="width: 100%;">
+          <i class="fa-solid fa-lock-open"></i> <span data-admin-i18n="btn_login">लगइन गर्नुहोस् (Login)</span>
+        </button>
+      </form>
+      <div style="margin-top: 1.25rem; font-size: 0.78rem; color: #94A3B8;">
+        <span data-admin-i18n="default_pin_hint">डिफल्ट सुरक्षा पिन (Default PIN):</span> <strong>2083</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       2. Admin Multi-Page Layout
+       ========================================== -->
+  <div class="admin-layout" id="adminDashboardView" style="display: none;">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <a href="../index.html" class="sidebar-brand" title="मुख्य वेबसाइटमा जानुहोस् (Go to Homepage)">
+        <i class="fa-solid fa-graduation-cap" style="font-size: 1.8rem; color: #D97706;"></i>
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; line-height: 1.2; color: #FFFFFF;">NPI Admin</h4>
+          <span style="font-size: 0.74rem; color: #94A3B8;" data-admin-i18n="brand_sub">निलकण्ठ-४, खानीगाउँ, धादिङ</span>
+        </div>
+      </a>
+
+      <ul class="sidebar-nav-list">
+        <li class="sidebar-nav-item active" data-view-target="overview">
+          <a href="javascript:void(0)" onclick="switchAdminView('overview')">
+            <i class="fa-solid fa-chart-pie"></i> <span data-admin-i18n="nav_overview">ड्यासबोर्ड (Overview)</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="admissions">
+          <a href="javascript:void(0)" onclick="switchAdminView('admissions')">
+            <i class="fa-solid fa-user-graduate"></i> <span data-admin-i18n="nav_admissions">अनलाइन भर्ना सूची</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="notices">
+          <a href="javascript:void(0)" onclick="switchAdminView('notices')">
+            <i class="fa-solid fa-bullhorn"></i> <span data-admin-i18n="nav_notices">सूचना व्यवस्थापन</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="ticker">
+          <a href="javascript:void(0)" onclick="switchAdminView('ticker')">
+            <i class="fa-solid fa-bolt"></i> <span data-admin-i18n="nav_ticker">ताजा सूचना टिकर</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="hero">
+          <a href="javascript:void(0)" onclick="switchAdminView('hero')">
+            <i class="fa-solid fa-panorama"></i> <span data-admin-i18n="nav_hero">हिरो ब्यानर / स्लाइडर</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="staff">
+          <a href="javascript:void(0)" onclick="switchAdminView('staff')">
+            <i class="fa-solid fa-users"></i> <span data-admin-i18n="nav_staff">शिक्षक तथा कर्मचारी</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="charter">
+          <a href="javascript:void(0)" onclick="switchAdminView('charter')">
+            <i class="fa-solid fa-scroll"></i> <span data-admin-i18n="nav_charter">नागरिक बडापत्र</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="downloads">
+          <a href="javascript:void(0)" onclick="switchAdminView('downloads')">
+            <i class="fa-solid fa-file-arrow-down"></i> <span data-admin-i18n="nav_downloads">डाउनलोड हब</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item" data-view-target="inquiries">
+          <a href="javascript:void(0)" onclick="switchAdminView('inquiries')">
+            <i class="fa-solid fa-envelope-open-text"></i> <span data-admin-i18n="nav_inquiries">सम्पर्क सन्देशहरू (Inbox)</span>
+            <span id="unreadInquiriesBadge" style="margin-left:auto; background:#EF4444; color:#fff; font-size:0.7rem; font-weight:700; padding:2px 6px; border-radius:10px; display:none;">0</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button class="btn-admin btn-admin-danger" style="width: 100%; font-size: 0.82rem;" onclick="adminLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> <span data-admin-i18n="btn_logout">लगआउट (Logout)</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Dynamic Content Views Area -->
+    <main class="admin-main">
+      
+      <!-- Topbar Header with Language Toggle -->
+      <div class="admin-topbar">
+        <div>
+          <h2 style="font-size: 1.35rem; color: var(--admin-primary); font-weight: 800;" id="currentViewTitle">ड्यासबोर्ड (Overview)</h2>
+          <span style="font-size: 0.82rem; color: var(--admin-text-muted);" id="currentViewSubtitle">निलकण्ठ बहुप्राविधिक शिक्षालय • शैक्षिक सत्र २०८३/०८४</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+          <button class="admin-lang-btn" id="adminLangToggleBtn" onclick="toggleAdminLanguage()" title="Language Mode">
+            <i class="fa-solid fa-globe"></i> English
+          </button>
+          <button class="btn-admin btn-admin-primary btn-sm" onclick="addNewNotice()">
+            <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_notice">नयाँ सूचना थप्नुहोस्</span>
+          </button>
+          <button class="btn-admin btn-admin-success btn-sm" onclick="exportAdmissionsToCSV()">
+            <i class="fa-solid fa-file-excel"></i> <span data-admin-i18n="btn_export_excel">Excel डाउनलोड</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           PAGE 1: OVERVIEW DASHBOARD VIEW
+           ============================================== -->
+      <section class="admin-view-panel active" id="view-overview">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="switchAdminView('admissions')" style="cursor:pointer;">
+            <div class="kpi-icon" style="background:#EBF3FD; color:#0F3870;">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <div class="kpi-num" id="kpiTotalApps">०</div>
+              <div class="kpi-lbl" data-admin-i18n="kpi_total_apps">कुल भर्ना आवेदन</div>
+            </div>
+          </div>
+
+          <div class="kpi-card" onclick="switchAdminView('admissions')" style="cursor:pointer;">
+            <div class="kpi-icon" style="background:#E0F2FE; color:#0284C7;">
+              <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <div>
+              <div class="kpi-num" id="kpiHaApps">०</div>
+              <div class="kpi-lbl" data-admin-i18n="kpi_ha_apps">PCL HA आवेदन</div>
+            </div>
+          </div>
+
+          <div class="kpi-card" onclick="switchAdminView('admissions')" style="cursor:pointer;">
+            <div class="kpi-icon" style="background:#D1FAE5; color:#059669;">
+              <i class="fa-solid fa-pills"></i>
+            </div>
+            <div>
+              <div class="kpi-num" id="kpiPharmApps">०</div>
+              <div class="kpi-lbl" data-admin-i18n="kpi_pharm_apps">Pharmacy आवेदन</div>
+            </div>
+          </div>
+
+          <div class="kpi-card" onclick="switchAdminView('notices')" style="cursor:pointer;">
+            <div class="kpi-icon" style="background:#FEF3C7; color:#D97706;">
+              <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <div>
+              <div class="kpi-num" id="kpiTotalNotices">०</div>
+              <div class="kpi-lbl" data-admin-i18n="kpi_notices">सक्रिय सूचनाहरू</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activities Grid -->
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem;">
+          <div class="admin-panel" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <h3 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> <span data-admin-i18n="recent_admissions_title">पछिल्ला भर्ना आवेदनहरू</span></h3>
+              <a href="javascript:void(0)" onclick="switchAdminView('admissions')" style="font-size:0.82rem; font-weight:700; color:var(--admin-primary);" data-admin-i18n="view_all">सबै हेर्नुहोस् →</a>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Applicant ID</th>
+                    <th data-admin-i18n="th_name">नाम</th>
+                    <th data-admin-i18n="th_course">कार्यक्रम</th>
+                    <th>SEE GPA</th>
+                    <th data-admin-i18n="th_status">स्थिति</th>
+                  </tr>
+                </thead>
+                <tbody id="overviewRecentAdmissions">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-panel" style="margin-bottom: 0;">
+            <div class="panel-header">
+              <h3 class="panel-title"><i class="fa-solid fa-bullhorn"></i> <span data-admin-i18n="recent_notices_title">हालैका सूचनाहरू</span></h3>
+              <a href="javascript:void(0)" onclick="switchAdminView('notices')" style="font-size:0.82rem; font-weight:700; color:var(--admin-primary);" data-admin-i18n="view_all">सबै हेर्नुहोस् →</a>
+            </div>
+            <ul id="overviewRecentNotices" style="list-style:none; display:flex; flex-direction:column; gap:0.75rem;">
+              <!-- Populated via JS -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 2: ADMISSIONS MANAGEMENT VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-admissions" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-user-graduate"></i> <span data-admin-i18n="adm_title">अनलाइन भर्ना आवेदन व्यवस्थापन</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="adm_sub">आवेदक विद्यार्थीहरूको विवरण, रुजु र Excel डाउनलोड</span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+              <input type="text" id="admSearchInput" class="login-input" placeholder="नाम, सिम्बोल वा ID खोज्नुहोस्..." data-admin-i18n="search_placeholder" style="width: 220px; margin-bottom: 0; padding: 0.4rem 0.8rem; font-size: 0.85rem;" oninput="filterAdmissions()" />
+              <select id="admCourseFilter" class="login-input" style="width: auto; margin-bottom: 0; padding: 0.4rem 0.8rem; font-size: 0.85rem;" onchange="filterAdmissions()">
+                <option value="all" data-admin-i18n="all_courses">सबै कार्यक्रम (All Courses)</option>
+                <option value="HA">Diploma in Civil Engineering (Hydropower)</option>
+                <option value="Pharmacy">Diploma in Civil Engineering (Hydropower)</option>
+              </select>
+              <button class="btn-admin btn-admin-success" onclick="exportAdmissionsToCSV()">
+                <i class="fa-solid fa-file-csv"></i> <span data-admin-i18n="btn_export_excel">Excel डाउनलोड</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_app_id">Applicant ID</th>
+                  <th data-admin-i18n="th_name">विद्यार्थीको नाम (Name)</th>
+                  <th data-admin-i18n="th_course">कार्यक्रम (Course)</th>
+                  <th data-admin-i18n="th_quota">कोटा (Quota)</th>
+                  <th data-admin-i18n="th_gpa">SEE GPA</th>
+                  <th data-admin-i18n="th_contact">सम्पर्क / ठेगाना</th>
+                  <th data-admin-i18n="th_status">स्थिति</th>
+                  <th data-admin-i18n="th_action">कार्य (Action)</th>
+                </tr>
+              </thead>
+              <tbody id="admissionsTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 3: NOTICES MANAGEMENT VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-notices" style="display: none;">
+        
+        <!-- Emergency Pop-up Modal Settings Card -->
+        <div class="admin-panel" style="margin-bottom: 1.5rem; border-left: 4px solid var(--admin-primary);">
+          <div class="panel-header" style="margin-bottom: 1rem;">
+            <div>
+              <h3 class="panel-title" style="color: var(--admin-primary);">
+                <i class="fa-solid fa-bullhorn"></i> <span data-admin-i18n="popup_settings_title">गृहपृष्ठ भर्ना पप-अप सूचना सेटिङ (Homepage Admission Pop-up Modal)</span>
+              </h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="popup_settings_sub">वेबसाइट खोल्दा देखिने विशेष भर्ना अलर्ट पप-अपको सामग्री तथा सक्रियता सम्पादन</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span class="badge-status status-verified" id="popupStatusBadge">सक्रिय (Active)</span>
+            </div>
+          </div>
+
+          <form id="popupSettingsForm" onsubmit="savePopupSettings(event)">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label style="font-size: 0.84rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                  <i class="fa-solid fa-power-off"></i> पप-अप स्थिति (Modal Status):
+                </label>
+                <select id="popupEnabledInput" class="login-input" style="margin-bottom: 0;">
+                  <option value="true">सक्रिय (Enabled - Display on Homepage)</option>
+                  <option value="false">निष्कृय (Disabled - Hide Pop-up)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size: 0.84rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                  <i class="fa-solid fa-tag"></i> शैक्षिक सत्र ट्याग (Session Badge):
+                </label>
+                <input type="text" id="popupBadgeInput" class="login-input" style="margin-bottom: 0;" value="शैक्षिक सत्र २०८३/२०८४ नयाँ भर्ना" required />
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.84rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                <i class="fa-solid fa-heading"></i> पप-अप मुख्य शीर्षक (Pop-up Title Heading):
+              </label>
+              <input type="text" id="popupTitleInput" class="login-input" style="margin-bottom: 0;" value="CTEVT Diploma in Civil Engineering (Hydropower) तथा Diploma in Civil Engineering (Hydropower) मा भर्ना खुल्यो!" required />
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+              <label style="font-size: 0.84rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                <i class="fa-solid fa-align-left"></i> संक्षिप्त विवरण (Description):
+              </label>
+              <textarea id="popupDescInput" class="login-input" style="margin-bottom: 0; min-height: 70px; resize: vertical;">यस शिक्षालयमा ३ वर्षे प्रमाणपत्र तह सामान्य चिकित्सा (HA) र डिप्लोमा इन फार्मेसी (Pharmacy) का लागि योग्यताक्रम तथा वर्गीकृत छात्रवृत्ति तर्फ नयाँ भर्ना आवेदन फाराम खुला गरिएको छ।</textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button type="submit" class="btn-admin btn-admin-primary">
+                <i class="fa-solid fa-floppy-disk"></i> <span data-admin-i18n="btn_save_popup">पप-अप सेटिङ सेभ गर्नुहोस्</span>
+              </button>
+              <button type="button" class="btn-admin btn-admin-secondary" onclick="resetPopupDismissCache()">
+                <i class="fa-solid fa-rotate"></i> टेस्ट पप-अप हेर्नुहोस् (Reset Dismiss Cache)
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Official Notices Hub Panel -->
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-list-check"></i> <span data-admin-i18n="notices_title">सूचना तथा नतिजा व्यवस्थापन (Notices CMS)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="notices_sub">वेबसाइटको आधिकारिक सूचना पाटी सम्पादन</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewNotice()">
+              <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_notice">नयाँ सूचना थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_notice_no">सूचना नं</th>
+                  <th data-admin-i18n="th_notice_title">सूचनाको शीर्षक</th>
+                  <th data-admin-i18n="th_category">श्रेणी</th>
+                  <th data-admin-i18n="th_date">मिति (BS)</th>
+                  <th data-admin-i18n="th_file">फाइल</th>
+                  <th data-admin-i18n="th_action">कार्य (Action)</th>
+                </tr>
+              </thead>
+              <tbody id="adminNoticesTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 4: BREAKING TICKER VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-ticker" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-bolt"></i> <span data-admin-i18n="ticker_title">ताजा सूचना टिकर व्यवस्थापन</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="ticker_sub">होमपेजको माथि घुम्ने १-२ लाइनका अलर्टहरू</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewTicker()">
+              <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_ticker">टिकर अलर्ट थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_sn">क्र.सं.</th>
+                  <th data-admin-i18n="th_ticker_msg">टिकर सन्देश</th>
+                  <th data-admin-i18n="th_tag">ट्याग</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminTickerTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 5: HERO SLIDER CMS VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-hero" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-panorama"></i> <span data-admin-i18n="hero_cms_title">हिरो ब्यानर तथा स्लाइडर व्यवस्थापन (Hero Slider CMS)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="hero_cms_sub">होमपेजको मुख्य ब्यानर, फोटो, शीर्षक, विवरण तथा बटनहरू परिवर्तन र सम्पादन गर्नुहोस्</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewHeroSlide()">
+              <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_hero">नयाँ स्लाइड थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>क्र.सं.</th>
+                  <th>फोटो (Slide Photo)</th>
+                  <th>ट्याग / ब्याच</th>
+                  <th>मुख्य शीर्षक (Hero Title)</th>
+                  <th>विवरण (Description)</th>
+                  <th>बटनहरू (Buttons)</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminHeroTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 6: STAFF DIRECTORY VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-staff" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-users"></i> <span data-admin-i18n="staff_title">शिक्षक तथा कर्मचारी विवरण (Faculty & Staff)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="staff_sub">शिक्षालयका प्राध्यापक, विभागीय प्रमुख तथा कर्मचारीहरूको सूची</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewStaff()">
+              <i class="fa-solid fa-user-plus"></i> <span data-admin-i18n="btn_add_staff">नयाँ कर्मचारी थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_staff_name">नाम</th>
+                  <th data-admin-i18n="th_role">पद (Designation)</th>
+                  <th data-admin-i18n="th_dept">विभाग (Department)</th>
+                  <th data-admin-i18n="th_qual">योग्यता</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminStaffTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 6: CITIZEN CHARTER VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-charter" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-scroll"></i> <span data-admin-i18n="charter_title">नागरिक बडापत्र व्यवस्थापन (Citizen Charter CMS)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="charter_sub">शिक्षालयबाट प्रवाह गरिने प्रमुख प्रशासनिक तथा शैक्षिक सेवाहरूको तालिका</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewCharterService()">
+              <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_charter">नयाँ सेवा थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_sn">क्र.सं.</th>
+                  <th data-admin-i18n="th_service">सेवाको विवरण (Service)</th>
+                  <th data-admin-i18n="th_docs">आवश्यक कागजात (Documents)</th>
+                  <th data-admin-i18n="th_branch">शाखा / अधिकारी</th>
+                  <th data-admin-i18n="th_time">समय</th>
+                  <th data-admin-i18n="th_fee">शुल्क</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminCharterTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 7: DOWNLOADS & RESOURCES CMS VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-downloads" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-file-arrow-down"></i> <span data-admin-i18n="downloads_cms_title">डाउनलोड हब व्यवस्थापन (Downloads & Resources CMS)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="downloads_cms_sub">पाठ्यक्रम, मोडल प्रश्नपत्र, शैक्षिक क्यालेन्डर तथा स्रोत सामग्री अपलोड र सम्पादन गर्नुहोस्</span>
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="addNewDownload()">
+              <i class="fa-solid fa-plus"></i> <span data-admin-i18n="btn_add_download">नयाँ फाइल थप्नुहोस्</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-admin-i18n="th_doc_title">फाइल शीर्षक (Document Title)</th>
+                  <th data-admin-i18n="th_doc_cat">विधा (Category)</th>
+                  <th data-admin-i18n="th_doc_date">मिति (Date)</th>
+                  <th data-admin-i18n="th_doc_size">साइज (Size)</th>
+                  <th data-admin-i18n="th_doc_file">फाइल नाम (Attachment)</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminDownloadsTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           PAGE 8: INQUIRIES & CONTACT MESSAGES VIEW
+           ============================================== -->
+      <section class="admin-view-panel" id="view-inquiries" style="display: none;">
+        <div class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-envelope-open-text"></i> <span data-admin-i18n="inquiries_title">सम्पर्क तथा सोधपुछ सन्देशहरू (Inquiries Inbox)</span></h3>
+              <span style="font-size: 0.82rem; color: var(--admin-text-muted);" data-admin-i18n="inquiries_sub">वेबसाइटबाट सर्वसाधारण र विद्यार्थीहरूले पठाएका सन्देश तथा जिज्ञासाहरूको विवरण</span>
+            </div>
+            <button class="btn-admin" style="background:#0284C7; color:#fff;" onclick="openContactSettingsModal()">
+              <i class="fa-solid fa-gear"></i> <span>सम्पर्क ठेगाना/फोन सेटिङ</span>
+            </button>
+          </div>
+
+          <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <button class="btn-admin" id="filterInqAll" style="background:var(--admin-primary); color:#fff; font-size:0.8rem; padding:5px 12px;" onclick="filterInquiries('all', this)">सबै सन्देशहरू (<span id="inquiryCountAll">0</span>)</button>
+            <button class="btn-admin" id="filterInqNew" style="background:#E2E8F0; color:#334155; font-size:0.8rem; padding:5px 12px;" onclick="filterInquiries('new', this)">नयाँ / अपठित (<span id="inquiryCountNew">0</span>)</button>
+            <button class="btn-admin" id="filterInqReplied" style="background:#E2E8F0; color:#334155; font-size:0.8rem; padding:5px 12px;" onclick="filterInquiries('replied', this)">जवाफ दिइएको (<span id="inquiryCountReplied">0</span>)</button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>मिति (Date)</th>
+                  <th>पठाउने व्यक्ति (Sender)</th>
+                  <th>सम्पर्क (Phone / Email)</th>
+                  <th>विषय (Subject)</th>
+                  <th>सन्देश (Message Preview)</th>
+                  <th>स्थिति (Status)</th>
+                  <th data-admin-i18n="th_action">कार्य</th>
+                </tr>
+              </thead>
+              <tbody id="adminInquiriesTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==========================================
+       3. Admin Modals Hub
+       ========================================== -->
+  
+  <!-- Add / Edit Notice Modal with File Attachment -->
+  <div class="admin-modal-backdrop" id="addNoticeModal">
+    <div class="admin-modal-dialog">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalNoticeTitleText"><i class="fa-solid fa-file-circle-plus"></i> नयाँ सूचना प्रकाशन (Publish Notice)</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addNoticeModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="addNoticeForm" onsubmit="handleSaveNotice(event)">
+          <input type="hidden" id="noticeEditId" value="" />
+          
+          <div class="form-group-admin">
+            <label class="form-label-admin">सूचनाको शीर्षक (नेपालीमा) <span style="color:var(--admin-accent);">*</span>:</label>
+            <input type="text" id="noticeTitleNeInput" class="login-input" style="margin-bottom:0;" placeholder="उदा. Diploma in Civil Engineering (Hydropower) नयाँ भर्ना आवेदन फाराम खुला..." required />
+          </div>
+
+          <div class="form-group-admin">
+            <label class="form-label-admin">Notice Title in English (Optional):</label>
+            <input type="text" id="noticeTitleEnInput" class="login-input" style="margin-bottom:0;" placeholder="e.g. Admission Application Form Open for Diploma in Civil Engineering (Hydropower)..." />
+          </div>
+
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">सूचनाको श्रेणी (Category) <span style="color:var(--admin-accent);">*</span>:</label>
+              <select id="noticeCategoryInput" class="login-input" style="margin-bottom:0;" required>
+                <option value="Admission">भर्ना & छात्रवृत्ति (Admission)</option>
+                <option value="Exam">परीक्षा & नतिजा (Examination)</option>
+                <option value="Circular">परिपत्र & निर्देशिका (Circular)</option>
+                <option value="Tender">बोलपत्र (Tenders & Procurement)</option>
+              </select>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="form-label-admin">प्रकाशन मिति (B.S. Date):</label>
+              <input type="text" id="noticeDateBsInput" class="login-input" style="margin-bottom:0;" value="२०८३ आश्विन १४" required />
+            </div>
+          </div>
+
+          <div class="form-group-admin">
+            <label class="form-label-admin">सूचनाको विस्तृत विवरण (Notice Content / Details):</label>
+            <textarea id="noticeContentNeInput" class="login-input" rows="3" style="margin-bottom:0;" placeholder="सूचनाको विस्तृत विवरण यहाँ लेख्नुहोस् (वा खाली छोड्नुहोस्)..."></textarea>
+          </div>
+
+          <!-- Attachment Upload Dropzone -->
+          <div class="form-group-admin">
+            <label class="form-label-admin"><i class="fa-solid fa-paperclip"></i> आधिकारिक PDF डकुमेन्ट / फाइल संलग्न गर्नुहोस् (Attachment):</label>
+            <div class="file-upload-dropzone" id="noticeDropzone">
+              <input type="file" id="noticeFileInput" class="file-upload-input" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleNoticeFileSelect(this)" />
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:#3B82F6; margin-bottom:0.4rem; display:block;"></i>
+              <strong style="color:var(--admin-primary); font-size:0.92rem; display:block;">PDF फाइल छनोट गर्न यहाँ क्लिक गर्नुहोस् वा तान्नुहोस् (Drag & Drop)</strong>
+              <span style="font-size:0.76rem; color:var(--admin-text-muted);">PDF, DOCX वा JPG (Maximum File Size: 10 MB)</span>
+              
+              <div id="noticeFilePreviewArea" style="display:none; margin-top:0.6rem;">
+                <span class="file-preview-pill">
+                  <i class="fa-solid fa-file-pdf" style="color:#EF4444; font-size:1.1rem;"></i>
+                  <span id="selectedNoticeFileName">Notice_File.pdf</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem; border-top:1px solid var(--admin-border); padding-top:1rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addNoticeModal')">
+              रद्द गर्नुहोस् (Cancel)
+            </button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnNoticeSubmit">
+              <i class="fa-solid fa-paper-plane" id="btnNoticeSubmitIcon"></i> <span id="btnNoticeSubmitText">सूचना प्रकाशित गर्नुहोस् (Publish)</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Ticker Modal -->
+  <div class="admin-modal-backdrop" id="addTickerModal">
+    <div class="admin-modal-dialog" style="max-width:500px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalTickerTitleText"><i class="fa-solid fa-bolt"></i> ताजा टिकर सन्देश थप्नुहोस्</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addTickerModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form onsubmit="handleSaveTicker(event)">
+          <input type="hidden" id="tickerEditId" value="" />
+          <div class="form-group-admin">
+            <label class="form-label-admin">टिकर सन्देश (Ticker Message) <span style="color:var(--admin-accent);">*</span>:</label>
+            <textarea id="tickerTextInput" class="login-input" rows="3" placeholder="यहाँ ताजा सन्देश लेख्नुहोस्..." required></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">ब्याच ट्याग (Tag Label):</label>
+            <input type="text" id="tickerTagInput" class="login-input" placeholder="उदा. भर्ना खुला, नतिजा, जरुरी" value="ताजा" />
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addTickerModal')">रद्द</button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnTickerSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btnTickerSubmitText">सुरक्षित गर्नुहोस्</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Staff Modal -->
+  <div class="admin-modal-backdrop" id="addStaffModal">
+    <div class="admin-modal-dialog" style="max-width:540px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalStaffTitleText"><i class="fa-solid fa-user-plus"></i> नयाँ शिक्षक / कर्मचारी थप्नुहोस्</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addStaffModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form onsubmit="handleSaveStaff(event)">
+          <input type="hidden" id="staffEditId" value="" />
+          <div class="form-group-admin">
+            <label class="form-label-admin">पूरा नाम (Full Name) <span style="color:var(--admin-accent);">*</span>:</label>
+            <input type="text" id="staffNameInput" class="login-input" placeholder="उदा. डा. भुवन प्रसाद जोशी" required />
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">पद (Designation):</label>
+              <input type="text" id="staffRoleInput" class="login-input" placeholder="उदा. विभागीय प्रमुख (HA)" required />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">विभाग (Department):</label>
+              <select id="staffDeptInput" class="login-input">
+                <option value="Health Sciences">Health Sciences (HA)</option>
+                <option value="Pharmacy">Pharmacy Department</option>
+                <option value="Leadership">नेतृत्व (Leadership)</option>
+                <option value="Administration">प्रशासन शाखा (Administration)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">शैक्षिक योग्यता (Qualifications):</label>
+            <input type="text" id="staffQualInput" class="login-input" placeholder="उदा. MBBS, MD • Clinical Medicine" />
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">फोटो (Photo / Profile Picture - ऐच्छिक):</label>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <input type="text" id="staffImageInput" class="login-input" style="flex:1;" placeholder="फोटोको URL वा फाइल छान्नुहोस्" />
+              <label class="btn-admin" style="cursor:pointer; background:#F1F5F9; color:#334155; border:1px solid #CBD5E1; white-space:nowrap; padding:0.6rem 0.85rem; font-size:0.82rem;">
+                <i class="fa-solid fa-upload"></i> फोटो छान्नुहोस्
+                <input type="file" id="staffFileInput" accept="image/*" style="display:none;" onchange="handleStaffPhotoUpload(event)" />
+              </label>
+            </div>
+            <div id="staffPhotoPreviewWrap" style="margin-top:0.6rem; display:none; align-items:center; gap:0.75rem; background:#F8FAFC; padding:0.5rem 0.75rem; border-radius:8px; border:1px solid #E2E8F0;">
+              <img id="staffPhotoPreview" src="" alt="Preview" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid #CBD5E1;" />
+              <span style="font-size:0.8rem; color:#64748B;">फोटो छानियो</span>
+              <button type="button" class="btn-admin btn-admin-danger" style="margin-left:auto; padding:3px 8px; font-size:0.75rem;" onclick="clearStaffPhoto()">हटाउनुहोस्</button>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addStaffModal')">रद्द</button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnStaffSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btnStaffSubmitText">थप्नुहोस्</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Citizen Charter Modal -->
+  <div class="admin-modal-backdrop" id="addCharterModal">
+    <div class="admin-modal-dialog" style="max-width:560px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalCharterTitleText"><i class="fa-solid fa-scroll"></i> नयाँ सेवा विवरण थप्नुहोस्</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addCharterModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form onsubmit="handleSaveCharterService(event)">
+          <input type="hidden" id="charterEditId" value="" />
+          <div class="form-group-admin">
+            <label class="form-label-admin">सेवाको नाम / विवरण (Service Description) <span style="color:var(--admin-accent);">*</span>:</label>
+            <input type="text" id="charterServiceInput" class="login-input" placeholder="उदा. चारित्रिक प्रमाणपत्र वितरण" required />
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">आवश्यक कागजात (Required Documents) <span style="color:var(--admin-accent);">*</span>:</label>
+            <input type="text" id="charterDocsInput" class="login-input" placeholder="उदा. अन्तिम वर्षको मार्कसिट, क्लियरेन्स फाराम" required />
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">सम्बन्धित शाखा / अधिकारी (Branch):</label>
+              <input type="text" id="charterBranchInput" class="login-input" placeholder="उदा. प्रशासन शाखा / भर्ना शाखा" required />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">लाग्ने समय (Timeframe):</label>
+              <input type="text" id="charterTimeInput" class="login-input" placeholder="उदा. सोही दिन / १ कार्यदिन" value="सोही दिन" required />
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">दस्तुर / शुल्क (Fee):</label>
+            <input type="text" id="charterFeeInput" class="login-input" placeholder="उदा. निःशुल्क / रु. २००/-" value="निःशुल्क" required />
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addCharterModal')">रद्द</button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnCharterSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btnCharterSubmitText">सुरक्षित गर्नुहोस्</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Download Resource Modal -->
+  <div class="admin-modal-backdrop" id="addDownloadModal">
+    <div class="admin-modal-dialog" style="max-width:540px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalDownloadTitleText"><i class="fa-solid fa-file-circle-plus"></i> नयाँ डाउनलोड सामग्री थप्नुहोस्</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addDownloadModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form onsubmit="handleSaveDownload(event)">
+          <input type="hidden" id="downloadEditId" value="" />
+          <div class="form-group-admin">
+            <label class="form-label-admin">फाइलको नाम / शीर्षक (Document Title) <span style="color:var(--admin-accent);">*</span>:</label>
+            <input type="text" id="downloadTitleInput" class="login-input" placeholder="उदा. CTEVT Diploma in Civil Engineering (Hydropower) Curriculum Syllabus" required />
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">विधा (Category):</label>
+              <select id="downloadCategoryInput" class="login-input">
+                <option value="Syllabus">पाठ्यक्रम (Syllabus)</option>
+                <option value="Model Questions">नमुना प्रश्नपत्र (Model Questions)</option>
+                <option value="Calendar">शैक्षिक क्यालेन्डर (Calendar)</option>
+                <option value="Application Form">आवेदन फाराम (Form)</option>
+                <option value="Curriculum">पाठ्यविवरण (Curriculum)</option>
+                <option value="General">अन्य (General)</option>
+              </select>
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">प्रकाशित मिति (Date):</label>
+              <input type="text" id="downloadDateInput" class="login-input" placeholder="उदा. २०८३/०५/१०" />
+            </div>
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">फाइल साइज (File Size):</label>
+              <input type="text" id="downloadSizeInput" class="login-input" placeholder="उदा. 2.4 MB" />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">फाइल प्रकार (Format):</label>
+              <select id="downloadTypeInput" class="login-input">
+                <option value="pdf">PDF Document (.pdf)</option>
+                <option value="doc">Word Document (.docx)</option>
+                <option value="zip">Zip Archive (.zip)</option>
+                <option value="excel">Excel (.xlsx)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">फाइल छान्नुहोस् वा फाइल नाम (Attachment) <span style="color:var(--admin-accent);">*</span>:</label>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <input type="text" id="downloadFileNameInput" class="login-input" style="flex:1;" placeholder="उदा. CTEVT_HA_Curriculum.pdf" required />
+              <label class="btn-admin" style="cursor:pointer; background:#F1F5F9; color:#334155; border:1px solid #CBD5E1; white-space:nowrap; padding:0.6rem 0.85rem; font-size:0.82rem;">
+                <i class="fa-solid fa-paperclip"></i> कम्प्युटरबाट छान्नुहोस्
+                <input type="file" id="downloadFileInput" style="display:none;" onchange="handleDownloadFileUpload(event)" />
+              </label>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addDownloadModal')">रद्द</button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnDownloadSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btnDownloadSubmitText">थप्नुहोस्</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Applicant Detail Profile Modal -->
+  <div class="admin-modal-backdrop" id="applicantDetailModal">
+    <div class="admin-modal-dialog" style="max-width:680px;">
+      <div class="admin-modal-header" style="background:#F0F7FF; border-bottom:1px solid #BFDBFE;">
+        <div>
+          <span style="font-size:0.75rem; font-weight:700; color:#0284C7; letter-spacing:0.5px; text-transform:uppercase;" id="modalAppIdBadge">APPLICATION ID</span>
+          <h4 class="admin-modal-title" id="modalApplicantName" style="color:var(--admin-primary); margin-top:2px;">Applicant Profile</h4>
+        </div>
+        <button class="admin-modal-close" onclick="closeAdminModal('applicantDetailModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="modalApplicantBody">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- View Inquiry Message Modal -->
+  <div class="admin-modal-backdrop" id="viewInquiryModal">
+    <div class="admin-modal-dialog" style="max-width:600px;">
+      <div class="admin-modal-header" style="background:#F8FAFC; border-bottom:1px solid #E2E8F0;">
+        <div>
+          <span style="font-size:0.75rem; font-weight:700; color:#0284C7; text-transform:uppercase;" id="modalInquiryIdBadge">INQUIRY MESSAGE</span>
+          <h4 class="admin-modal-title" id="modalInquirySenderName" style="color:var(--admin-primary); margin-top:2px;">Sender Name</h4>
+        </div>
+        <button class="admin-modal-close" onclick="closeAdminModal('viewInquiryModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="modalInquiryBody">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact & Institution Info Settings Modal -->
+  <div class="admin-modal-backdrop" id="contactSettingsModal">
+    <div class="admin-modal-dialog" style="max-width:580px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title"><i class="fa-solid fa-sliders"></i> शिक्षालय सम्पर्क तथा ठेगाना सेटिङ</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('contactSettingsModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form onsubmit="handleSaveContactSettings(event)">
+          <div class="form-group-admin">
+            <label class="form-label-admin">ठेगाना / अवस्थिति (Location):</label>
+            <input type="text" id="settingLocationInput" class="login-input" placeholder="उदा. Nilkantha Municipality Ward No. 3, Dhading" required />
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">फोन / हटलाइन (Phone / Hotline):</label>
+              <input type="text" id="settingPhoneInput" class="login-input" placeholder="उदा. 010-590116 / 9849050398" required />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">इमेल ठेगाना (Email Address):</label>
+              <input type="email" id="settingEmailInput" class="login-input" placeholder="उदा. info@npsdhading.edu.np" required />
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label class="form-label-admin">कार्यालय समय (Office Hours):</label>
+            <input type="text" id="settingHoursInput" class="login-input" placeholder="उदा. Sun - Thu: 10:00 AM - 5:00 PM | Fri: 10:00 AM - 3:00 PM" required />
+          </div>
+          <div class="form-grid-2-admin">
+            <div class="form-group-admin">
+              <label class="form-label-admin">Facebook Page URL:</label>
+              <input type="url" id="settingFacebookInput" class="login-input" placeholder="https://facebook.com/..." />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin">YouTube Channel URL:</label>
+              <input type="url" id="settingYoutubeInput" class="login-input" placeholder="https://youtube.com/..." />
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('contactSettingsModal')">रद्द</button>
+  <!-- Add / Edit Hero Slide Modal -->
+  <div class="admin-modal-backdrop" id="addHeroModal">
+    <div class="admin-modal-dialog" style="max-width: 720px;">
+      <div class="admin-modal-header">
+        <h4 class="admin-modal-title" id="modalHeroTitleText"><i class="fa-solid fa-panorama"></i> ब्यानर स्लाइड सम्पादन (Edit Hero Slide)</h4>
+        <button class="admin-modal-close" onclick="closeAdminModal('addHeroModal')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="heroSlideForm" onsubmit="handleSaveHeroSlide(event)">
+          <input type="hidden" id="heroEditId" />
+          
+          <!-- Photo Upload & URL -->
+          <div class="form-group-admin" style="margin-bottom: 1.25rem;">
+            <label class="form-label-admin" style="font-weight:700; color:#1E293B;">ब्यानर फोटो (Background Image) <span style="color:#DC2626;">*</span>:</label>
+            <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
+              <div style="flex:1; min-width:260px;">
+                <input type="file" id="heroFileInput" accept="image/*" class="admin-form-input" style="padding:6px;" onchange="handleHeroPhotoUpload(event)" />
+                <small style="display:block; color:#64748B; margin-top:4px;">कम्प्युटर/मोबाइलबाट नयाँ फोटो छनोट गर्नुहोस् (JPG/PNG/WebP)</small>
+                <div style="margin-top:8px;">
+                  <input type="text" id="heroImageInput" class="login-input" placeholder="वा फोटोको URL / Path (उदा. assets/images/hero-campus.jpg)" />
+                </div>
+              </div>
+              <div id="heroPhotoPreviewWrap" style="width:160px; height:95px; border-radius:8px; border:2px dashed #94A3B8; overflow:hidden; background:#F8FAFC; display:flex; align-items:center; justify-content:center; position:relative;">
+                <img id="heroPhotoPreview" src="" alt="Preview" style="width:100%; height:100%; object-fit:cover; display:none;" />
+                <span id="heroPhotoPlaceholder" style="font-size:0.75rem; color:#94A3B8; text-align:center; padding:4px;">No Photo Selected</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tag Badge & Color -->
+          <div class="form-grid-2-admin" style="margin-bottom: 1rem;">
+            <div class="form-group-admin">
+              <label class="form-label-admin" style="font-weight:700;">ट्याग / ब्याच (Top Tag Badge):</label>
+              <input type="text" id="heroTagInput" class="login-input" placeholder="उदा. CTEVT Constituent Institute • Estd: 2079" required />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label-admin" style="font-weight:700;">ट्याग रङ (Tag Color):</label>
+              <select id="heroTagColorInput" class="login-input">
+                <option value="#C8102E">Crimson Red (डिफल्ट रातो)</option>
+                <option value="#0284C7">Sky Blue (HA निलो)</option>
+                <option value="#059669">Emerald Green (फार्मेसी हरियो)</option>
+                <option value="#D97706">Amber Orange (सुन्तला)</option>
+                <option value="#4F46E5">Indigo (बैजनी)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Title (Nepali & English) -->
+          <div class="form-group-admin" style="margin-bottom: 1rem;">
+            <label class="form-label-admin" style="font-weight:700;">मुख्य शीर्षक (Main Title - Nepali) <span style="color:#DC2626;">*</span>:</label>
+            <input type="text" id="heroTitleNeInput" class="login-input" placeholder="उदा. सुदूरपश्चिममा दक्ष प्राविधिक तथा स्वास्थ्य शिक्षाको ज्योति" required />
+          </div>
+
+          <div class="form-group-admin" style="margin-bottom: 1rem;">
+            <label class="form-label-admin" style="font-weight:700;">Main Title (English):</label>
+            <input type="text" id="heroTitleEnInput" class="login-input" placeholder="e.g. Leading Technical & Health Sciences Education in Sudurpashchim" />
+          </div>
+
+          <!-- Description (Nepali & English) -->
+          <div class="form-group-admin" style="margin-bottom: 1rem;">
+            <label class="form-label-admin" style="font-weight:700;">विवरण / उपशीर्षक (Description - Nepali) <span style="color:#DC2626;">*</span>:</label>
+            <textarea id="heroDescNeInput" rows="3" class="login-input" style="height:auto; padding:8px;" placeholder="निलकण्ठ बहुप्राविधिक शिक्षालय, धादिङ..." required></textarea>
+          </div>
+
+          <div class="form-group-admin" style="margin-bottom: 1.25rem;">
+            <label class="form-label-admin" style="font-weight:700;">Description (English):</label>
+            <textarea id="heroDescEnInput" rows="2" class="login-input" style="height:auto; padding:8px;" placeholder="Nilkantha Polytechnic Institute, Dhading..."></textarea>
+          </div>
+
+          <!-- Button 1 & Button 2 Settings -->
+          <div style="background:#F8FAFC; padding:1rem; border-radius:8px; border:1px solid #E2E8F0; margin-bottom:1.25rem;">
+            <h5 style="margin:0 0 0.75rem; color:var(--admin-primary); font-size:0.9rem;"><i class="fa-solid fa-link"></i> एक्सन बटनहरू (Action Buttons)</h5>
+            
+            <div class="form-grid-2-admin" style="margin-bottom:0.75rem;">
+              <div class="form-group-admin">
+                <label class="form-label-admin">बटन १ नाम (Nepali):</label>
+                <input type="text" id="heroBtn1TextNe" class="login-input" placeholder="उदा. अनलाइन भर्ना आवेदन फाराम" />
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label-admin">बटन १ लिङ्क (URL / Anchor):</label>
+                <input type="text" id="heroBtn1Link" class="login-input" placeholder="#online-admission" />
+              </div>
+            </div>
+
+            <div class="form-grid-2-admin">
+              <div class="form-group-admin">
+                <label class="form-label-admin">बटन २ नाम (Nepali):</label>
+                <input type="text" id="heroBtn2TextNe" class="login-input" placeholder="उदा. कार्यक्रमहरू हेर्नुहोस्" />
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label-admin">बटन २ लिङ्क (URL / Anchor):</label>
+                <input type="text" id="heroBtn2Link" class="login-input" placeholder="#programs" />
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.6rem; border-top:1px solid #E2E8F0; padding-top:1rem;">
+            <button type="button" class="btn-admin" style="background:#E2E8F0; color:#475569;" onclick="closeAdminModal('addHeroModal')">रद्द (Cancel)</button>
+            <button type="submit" class="btn-admin btn-admin-primary" id="btnHeroSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btnHeroSubmitText">परिवर्तन सुरक्षित गर्नुहोस् (Save)</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
